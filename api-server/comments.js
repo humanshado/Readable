@@ -23,6 +23,66 @@ const defaultData = {
     voteScore: -5,
     deleted: false,
     parentDeleted: false
+  },
+  "994tuq4ut84ut8v4t8wun89g": {
+    id: '994tuq4ut84ut8v4t8wun89g',
+    parentId: "6ni6ok3ym7mf1p33lnez",
+    timestamp: 1468166872700,
+    body: 'Hi there! I am a COMMENT II.',
+    author: 'Kabir',
+    voteScore: 1,
+    deleted: false,
+    parentDeleted: false
+  },
+  "10tu4bsun805n8un48ve89": {
+    id: '8tu4bsun805n8un48ve89',
+    parentId: "7ni6ok3ym7mf1p33lnez",
+    timestamp: 1469479767800,
+    body: 'Comments. Are. Cool II',
+    author: 'Saleh',
+    voteScore: 3,
+    deleted: false,
+    parentDeleted: false
+  },
+  "1094tuq4ut84ut8v4t8wun89g": {
+    id: '1094tuq4ut84ut8v4t8wun89g',
+    parentId: "8ni6ok3ym7mf1p33lnez",
+    timestamp: 1468166872900,
+    body: 'Hi there! I am a COMMENT III',
+    author: 'Jennifer',
+    voteScore: 16,
+    deleted: false,
+    parentDeleted: false
+  },
+  "9tu4bsun805n8un48ve89": {
+    id: '9tu4bsun805n8un48ve89',
+    parentId: "9ni6ok3ym7mf1p33lnez",
+    timestamp: 1469479767910,
+    body: 'Comments. Are. Cool III',
+    author: 'Jennifer',
+    voteScore: -15,
+    deleted: false,
+    parentDeleted: false
+  },
+  "1194tuq4ut84ut8v4t8wun89g": {
+    id: '1194tuq4ut84ut8v4t8wun89g',
+    parentId: "10ni6ok3ym7mf1p33lnez",
+    timestamp: 1468166872950,
+    body: 'Hi there! I am a COMMENT IV',
+    author: 'Kaode',
+    voteScore: 60,
+    deleted: false,
+    parentDeleted: false
+  },
+  "10tu4bsun805n8un48ve89": {
+    id: '10tu4bsun805n8un48ve89',
+    parentId: "10ni6ok3ym7mf1p33lnez",
+    timestamp: 1469479767980,
+    body: 'Comments. Are. Cool IV',
+    author: 'Nwoke',
+    voteScore: 5,
+    deleted: false,
+    parentDeleted: false
   }
 }
 
