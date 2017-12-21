@@ -19,6 +19,7 @@ export const DOWNVOTE_POST = "DOWNVOTE_POST";
 export const SHOW_POST = "SHOW_POST";
 export const FETCH_CATEGORY_POSTS ="FETCH_CATEGORY_POSTS";
 export const FETCH_COMMENTS = "FETCH_COMMENTS";
+export const ADD_COMMENT = "ADD_COMMENT";
 
 
 export function fetchCategories() {
@@ -146,5 +147,23 @@ export function fetchComments(postId){
             }).catch(error => console.log("Oh Yawsa! Request Failed: ", error));
     }
                 
+}
+
+export function addComment({...comment}){
+    const request = fetch(`${root_api}/comments/`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({...comment})
+    })
+    return (dispatch) => {
+        request.then(response => response.json())
+            .then(json => {
+                dispatch({
+                    type: ADD_COMMENT,
+                    payload: json
+                })
+            }).catch(error => error);
+    }
+
 }
 

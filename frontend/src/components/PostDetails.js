@@ -32,8 +32,8 @@ class PostDetails extends Component {
                         posted by:<span style={{ "color": "red" }}><i className="fa fa-user-circle" aria-hidden="true"></i> <strong>{author}</strong></span> |
                         <span className="text-muted">{moment(timestamp).fromNow()}</span> |
                             comments: <span className="badge badge-primary">{commentCount}</span>
-                        | votes: <span className="upVote" onClick={this.props.upVote(id)}><i className="fa fa-heart" aria-hidden="true"></i></span>
-                        <span className="downVote" onClick={this.props.downVote(id)}><i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
+                        | votes: <span className="upVote" onClick={() => this.props.upVote(id)}><i className="fa fa-heart" aria-hidden="true"></i></span>
+                        <span className="downVote" onClick={() => this.props.downVote(id)}><i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
                         <span>{voteScore}</span>
                         <div className="pull-right btn-group">
                             <span className="edit btn btn-default"><i className="fa fa-pencil" aria-hidden="true"></i></span>
