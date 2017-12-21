@@ -28,11 +28,12 @@ class Comments extends Component {
            ...values,
            id: uuidv4(),
            parentId: this.props.post.id,
-           timestamp: moment().unix(Date.now()),
+           timestamp: Date.now(),
            voteScore: 0,
            deleted: false,
            parentDeleted: false
        })
+       this.props.reset();
     }
    
     render(){
