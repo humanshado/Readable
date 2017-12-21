@@ -23,7 +23,7 @@ class Comments extends Component {
         }))
     }
 
-   submit = (values) => {
+   submitComment = (values) => {
        this.props.addComment({
            ...values,
            id: uuidv4(),
@@ -38,11 +38,11 @@ class Comments extends Component {
    
     render(){
         console.log('props in Comments.js render ', this.props);
-        const { post, parentId, handleSubmit, reset, submitting } = this.props;
+        const { post, parentId, handleSubmit, reset, pristine, submitting } = this.props;
         return(
             <div className="comments-wrapper">
                 <h4 className="text-muted">Comments</h4>
-                <form className="form-inline" onSubmit={handleSubmit(this.submit)}>
+                <form className="form-inline" onSubmit={handleSubmit(this.submitComment)}>
                     <div className="form-group">
                         <label htmlFor="author">Name:</label>
                         <Field name="author" component="input" type="text" className="form-control" placeholder="enter your name"/>
@@ -51,7 +51,7 @@ class Comments extends Component {
                         <label htmlFor="body">Comment:</label>
                         <Field name="body" component="input" type="textarea" id="comment-box" className="form-control" placeholder="write your comments here..." />
                     </div>
-                        <button type="submit" className="btn btn-default" hidden >Submit</button>
+                        <button type="submit" className="btn btn-default" disabled={ pristine || submitting} >Submit</button>
                 </form>
                 <hr />
                  { this.props.comments && this.renderComments() }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import Nav from './components/Nav';
 import ListCategories from './components/ListCategories';
 import CategorySummary from './components/CategorySummary';
@@ -34,12 +34,14 @@ class App extends Component {
               </div>
 
               <div className="col-xs-12 col-md-9"> 
+                    <Switch>
                       <Route exact path="/" component={PostsList} />
                       <Route exact path="/posts" component={PostsList} />
                       <Route exact path="/posts/new" component={PostNew} />
                       <Route exact path="/posts/:id" component={PostDetails} />
                       <Route exact path="/categories" component={CategorySummary} />
                       <Route exact path="/:categories/posts" component={CategorySpecificPosts} />
+                    </Switch>
                 </div>
               </div>
             </div>

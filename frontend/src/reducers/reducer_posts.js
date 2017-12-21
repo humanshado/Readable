@@ -1,4 +1,4 @@
-import { FETCH_POSTS, SHOW_POST, UPVOTE_POST, DOWNVOTE_POST } from '../actions';
+import { FETCH_POSTS, SHOW_POST, ADD_POST, UPVOTE_POST, DOWNVOTE_POST } from '../actions';
 
 export default function (state = {}, action) {
     switch (action.type) {
@@ -9,6 +9,11 @@ export default function (state = {}, action) {
             }, {});
         case SHOW_POST:
             return Object.assign({}, state, action.payload);
+        case ADD_POST:
+            return {
+                ...state,
+                [action.payload.id]:action.payload
+            }
         case UPVOTE_POST:
             return {
                 ...state,

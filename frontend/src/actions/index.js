@@ -20,6 +20,7 @@ export const SHOW_POST = "SHOW_POST";
 export const FETCH_CATEGORY_POSTS ="FETCH_CATEGORY_POSTS";
 export const FETCH_COMMENTS = "FETCH_COMMENTS";
 export const ADD_COMMENT = "ADD_COMMENT";
+export const ADD_POST = "ADD_POST";
 
 
 export function fetchCategories() {
@@ -67,6 +68,23 @@ export function fetchPosts() {
 //             )})
 //     }
 // }
+
+export function addPost(post){
+    const request = fetch(`${root_api}/posts`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(post)
+    })
+    return (dispatch) => {
+        request.then(response => response.json())
+            .then(json => {
+                dispatch({
+                    type: ADD_POST,
+                    payload: json
+                })
+            }).catch(error => error);
+    }
+}
 
 export function upVote(id){
     const uVote = fetch(`${root_api}/posts/${id}`, {
