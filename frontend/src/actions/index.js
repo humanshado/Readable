@@ -21,6 +21,8 @@ export const FETCH_CATEGORY_POSTS ="FETCH_CATEGORY_POSTS";
 export const FETCH_COMMENTS = "FETCH_COMMENTS";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const ADD_POST = "ADD_POST";
+export const DELETE_POST = "DELETE_POST";
+
 
 
 export function fetchCategories() {
@@ -84,6 +86,23 @@ export function addPost(post){
                 })
             }).catch(error => error);
     }
+}
+
+export function deletePost(id){
+    const request = fetch(`${root_api}/posts/${id}`, {
+        method: "DELETE",
+        headers
+    })
+    return (dispatch) => {
+        request.then(response => response.json())
+            .then(json => {
+                dispatch({
+                    type: DELETE_POST,
+                    payload: json
+                })
+            }).catch(error => console.log("Oh Yawsa! Request Failed: ", error));
+    } 
+
 }
 
 export function upVote(id){

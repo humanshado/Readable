@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { fetchPost, fetchComments, upVote, downVote } from '../actions';
+import { fetchPost, fetchComments, upVote, downVote, deletePost } from '../actions';
 import * as moment from 'moment';
 import Comments from './Comments';
 
@@ -15,6 +15,11 @@ class PostDetails extends Component {
         this.props.fetchComments(id);
     }
 
+     handleDeletePost = (id) => {
+        console.log('Post to delete from PostList.js ', id)
+        this.props.deletePost(id);
+        this.props.history.push("/");
+    }
 
     render(){
         console.log('props in PostDetails render ', this.props);
@@ -37,7 +42,7 @@ class PostDetails extends Component {
                         <span>{voteScore}</span>
                         <div className="pull-right btn-group">
                             <span className="edit btn btn-default"><i className="fa fa-pencil" aria-hidden="true"></i></span>
-                            <span className="delete btn btn-default"><i className="fa fa-trash" aria-hidden="true"></i></span>
+                            <span className="delete btn btn-default" onClick={() => this.handleDeletePost(id)}><i className="fa fa-trash" aria-hidden="true"></i></span>
                         </div>
                         <hr /><p>{body}</p>
                     </div>
@@ -63,7 +68,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ fetchPost, fetchComments, upVote, downVote }, dispatch);
+    return bindActionCreators({ fetchPost, fetchComments, upVote, downVote, deletePost }, dispatch);
 }
 
 

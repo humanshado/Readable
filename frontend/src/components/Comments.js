@@ -38,7 +38,7 @@ class Comments extends Component {
    
     render(){
         console.log('props in Comments.js render ', this.props);
-        const { post, parentId, handleSubmit, reset, pristine, submitting } = this.props;
+        const {  handleSubmit, pristine, submitting } = this.props;
         return(
             <div className="comments-wrapper">
                 <h4 className="text-muted">Comments</h4>

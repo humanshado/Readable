@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as moment from 'moment';
-import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import uuidv4 from 'uuid/v4';
 import { addPost } from '../actions';

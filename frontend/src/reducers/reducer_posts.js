@@ -1,4 +1,5 @@
-import { FETCH_POSTS, SHOW_POST, ADD_POST, UPVOTE_POST, DOWNVOTE_POST } from '../actions';
+import _ from 'lodash';
+import { FETCH_POSTS, SHOW_POST, ADD_POST, UPVOTE_POST, DOWNVOTE_POST, DELETE_POST } from '../actions';
 
 export default function (state = {}, action) {
     switch (action.type) {
@@ -24,6 +25,13 @@ export default function (state = {}, action) {
                 ...state,
                 [action.payload.id]: action.payload
             }
+        case DELETE_POST:
+            const allPosts = Object.values(state);
+            const newState = allPosts.filter(p => p.id !== action.payload.id)
+            return newState.reduce((acc, cur) => {
+                acc[cur.id] = cur;
+                return acc;
+            },{});
         default:
             return state;
     }
