@@ -25,13 +25,12 @@ body {
   color: rgb(145, 7, 7);
   font-weight: bold;
   background-color: #FFF;
-  margin: 0;
+  margin: 0 auto;
 }
 
 .banner{
   position: sticky !important;
   top: 70px !important;
-  z-index: 99;
 }
 
 .summary-links span{
@@ -134,5 +133,10 @@ form button{
 
 #comment-box{
   width: 40rem;
+}
+
+.comments-wrapper h5{
+  margin: 0;
+  padding: 0;
 }
 

@@ -18,13 +18,13 @@ class CategorySpecificPosts extends Component {
         this.props.deletePost(id);
     }
 
-    // handleUpVotePost = (id) => {
-    //     this.props.upVote(id);
-    // }
+    handleUpVotePost = (id) => {
+        this.props.upVote(id);
+    }
 
-    // handleDownVotePost = (id) => {
-    //     this.props.downVote(id);
-    // }
+    handleDownVotePost = (id) => {
+        this.props.downVote(id);
+    }
 
     renderPosts = () => {
         return this.props.CategoryPosts.map((post) => {
@@ -37,8 +37,8 @@ class CategorySpecificPosts extends Component {
                     posted by:<span style={{ "color": "red" }}><i className="fa fa-user-circle" aria-hidden="true"></i> <strong>{post.author}</strong></span> |
                     <span className="text-muted">{moment(post.timestamp).fromNow()}</span> |
                         comments: <span className="badge badge-primary">{post.commentCount}</span>
-                    | votes: <span className="upVote" onClick={() => this.props.upVote(post.id)}><i className="fa fa-heart" aria-hidden="true"></i></span>
-                    <span className="downVote" onClick={() => this.props.downVote(post.id)}><i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
+                    | votes: <span className="upVote" onClick={() => this.handleUpVotePost(post.id)}><i className="fa fa-heart" aria-hidden="true"></i></span>
+                    <span className="downVote" onClick={() => this.handleDownVotePost(post.id)}><i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
                     <span>{post.voteScore}</span>
                 </div>
                 <div className="pull-right btn-group">

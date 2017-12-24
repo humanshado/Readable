@@ -4,35 +4,57 @@ import { bindActionCreators } from 'redux';
 import * as moment from 'moment';
 import { Field, reduxForm } from 'redux-form';
 import uuidv4 from 'uuid/v4';
-import { addComment, deleteComment } from '../actions';
+import { addComment, editComment, deleteComment } from '../actions';
 
 class Comments extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            isEditing: false,
+            comments: [...this.props.comments]
+        }
+    }
 
     handleDeleteComment = (id) => {
         console.log('Comment to delete from Comment.js ', id)
         this.props.deleteComment(id);
     }
 
-    // changeRoute = (post) => {
-    //     console.log('post to edit in PostList ', post)
-    //     const { history } = this.props
-    //     history.push(`/posts/edit/${post.id}`, { post })
+    toggleEdit = () => {
+        console.log('toggleEdit ', this.state.isEditing)
+        this.setState({ isEditing: !this.state.isEditing })
+    }
+
+    // componentWillReceiveProps = (nextProps) => {
+    //     this.props.comments.map((c, i) => {
+    //         if ((c.author != nextProps.comments[i].author) || (c.body != nextProps.comments[i].body) || (c.voteScore != nextProps.comments[i].voteScore) ){
+    //             this.setState({ comments: nextProps.comments })
+    //         }
+    //     })
+    // }
+
+    // updateCommentState(e, i) {
+    //     const field = e.target.name;
+    //     const comment = this.state.comments[i];
+    //     comment[field] = e.target.value;
+    //     return this.setState({ comments: comments });
     // }
 
     renderComments = () => {
-        return this.props.comments.map((c => {
+        return this.props.comments.map((comment => {
             return (
-               <div key={c.id}>
-                   <h4>{c.body}</h4>
+               <div key={comment.id}>
+                    <i className="fa fa-comment-o" aria-hidden="true"></i><h4>{comment.body}</h4>
                    <div>
-                        by:<span className="text-muted">{c.author}</span>
-                        <span className="text-muted">{moment(c.timestamp).fromNow()}</span>
-                        | votes: <span className="upVote" onClick={() => this.handleUpVoteComment(c.id)}><i className="fa fa-heart" aria-hidden="true"></i></span>
-                        <span className="downVote" onClick={() => this.handleDownVoteComment(c.id)}><i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
-                        <span className="text-muted">{c.voteScore}</span>
+                        by:<span className="text-muted">{comment.author}</span>
+                        <span className="text-muted">{moment(comment.timestamp).fromNow()}</span>
+                        | votes: <span className="upVote" onClick={() => this.handleUpVoteComment(comment.id)}><i className="fa fa-heart" aria-hidden="true"></i></span>
+                        <span className="downVote" onClick={() => this.handleDownVoteComment(comment.id)}><i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
+                        <span className="text-muted">{comment.voteScore}</span>
                         <div className="pull-right btn-group">
-                            <span className="edit"><i className="fa fa-pencil" aria-hidden="true"></i></span>
-                            <span className="delete" onClick={() => this.handleDeleteComment(c.id)}><i className="fa fa-trash" aria-hidden="true"></i></span>
+                            <span className="edit" onClick={() => this.toggleEdit()}><i className="fa fa-pencil" aria-hidden="true"></i></span>
+                            <span className="delete" onClick={() => this.handleDeleteComment(comment.id)}><i className="fa fa-trash" aria-hidden="true"></i></span>
                         </div>
                    </div>
                </div>
@@ -54,22 +76,42 @@ class Comments extends Component {
     }
    
     render(){
-        console.log('props in Comments.js render ', this.props);
+        console.log('props in Comments.js ', this.props.comments);
         const {  handleSubmit, pristine, submitting } = this.props;
+
         return(
             <div className="comments-wrapper">
-                <h4 className="text-muted">Comments</h4>
-                <form className="form-inline" onSubmit={handleSubmit(this.submitComment)}>
-                    <div className="form-group">
-                        <label htmlFor="author">Name:</label>
-                        <Field name="author" component="input" type="text" className="form-control" placeholder="enter your name"/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="body">Comment:</label>
-                        <Field name="body" component="input" type="textarea" id="comment-box" className="form-control" placeholder="write your comments here..." />
-                    </div>
-                        <button type="submit" className="btn btn-default" disabled={ pristine || submitting} >Submit</button>
-                </form>
+                <h5 className="text-muted">Comments</h5>
+                { this.state.isEditing 
+                    ? <div style={{ "backgroundColor": "#F2F3F5", "padding": "20px", "border-radius": "10px" }}>
+                            <h5>Editing...</h5>
+                            <form className="form-inline" onSubmit={handleSubmit(this.submitComment)}>
+                                <div className="form-group">
+                                    <label htmlFor="author">Name:</label>
+                                    <Field name="author" component="input" type="text" className="form-control" placeholder="enter your name" />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="body">Comment:</label>
+                                    <Field name="body" component="input" type="textarea" id="comment-box" className="form-control" placeholder="write your comments here..." />
+                                </div>
+                            <button type="submit" className="btn btn-default" style={{ "display": "none" }} disabled={pristine || submitting} >Submit</button>
+                            </form>  
+                        </div>
+                    : <div style={{ "padding": "20px", "border-radius": "10px" }}>
+                            <h5>New...</h5>
+                            <form className="form-inline" onSubmit={handleSubmit(this.submitComment)}>
+                            <div className="form-group">
+                                <label htmlFor="author">Name:</label>
+                                <Field name="author" component="input" type="text" className="form-control" placeholder="enter your name"/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="body">Comment:</label>
+                                <Field name="body" component="input" type="textarea" id="comment-box" className="form-control" placeholder="write your comments here..." />
+                            </div>
+                            <button type="submit" className="btn btn-default" style={{ "display": "none" }} disabled={ pristine || submitting} >Submit</button>
+                            </form> 
+                        </div>
+                }
                 <hr />
                  { this.props.comments && this.renderComments() }
             </div>
@@ -78,7 +120,7 @@ class Comments extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ addComment, deleteComment }, dispatch);
+    return bindActionCreators({ addComment, editComment, deleteComment }, dispatch);
 }
 
 Comments = connect(null, mapDispatchToProps)(Comments);

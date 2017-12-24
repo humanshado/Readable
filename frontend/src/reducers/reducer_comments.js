@@ -1,4 +1,4 @@
-import { FETCH_COMMENTS, ADD_COMMENT, DELETE_COMMENT } from '../actions';
+import { FETCH_COMMENTS, ADD_COMMENT, EDIT_COMMENT, DELETE_COMMENT } from '../actions';
 
 export default function (state = {}, action) {
     console.log('data received in comments reducer ', action.payload)
@@ -12,6 +12,11 @@ export default function (state = {}, action) {
             return {
                 ...state,
                 [action.payload.id]:action.payload
+            }
+        case EDIT_COMMENT:
+            return {
+                ...state,
+                [action.payload.id]: action.payload
             }
         case DELETE_COMMENT:
             const allComments = Object.values(state);

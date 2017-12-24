@@ -8,8 +8,18 @@ import sortBy from 'sort-by';
 
 
 class PostsList extends Component {
-    state = {
-        sortOption: " "
+    constructor(props){
+        super(props);
+
+        this.state = {
+            sortOption: " ",
+            isCategoryActive: false,
+            selectedCategory: ""
+        }
+    }
+
+    toggleCategory = () => {
+        this.setState({ isCategoryActive: !this.state.isCategoryActive });
     }
 
     componentDidMount() {
@@ -73,11 +83,17 @@ class PostsList extends Component {
 
         return (
             <div>
-                <span className="col-xs-12 col-md-10 main-blog">
-                    <ul className="list-group">
-                        {this.renderPosts()}
-                    </ul>
-                </span>
+                {this.state.isCategoryActive              
+                ?   <span className="col-xs-12 col-md-10 main-blog">
+                        <h5>Category Posts here ...</h5>
+                        {}
+                    </span>
+                :   <span className="col-xs-12 col-md-10 main-blog">
+                        <ul className="list-group">
+                            {this.renderPosts()}
+                        </ul>
+                    </span>
+                }
                 <span className="col-md-2 sort-group">
                     <h5 className="text-muted">Sort by:</h5>
                     <select value={this.state.sortOption} onChange={(e) => this.updateSort(e)}>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchPost, fetchComments, editPost, upVote, downVote, deletePost } from '../actions';
+import { fetchPost, fetchComments, upVote, downVote, deletePost } from '../actions';
 import * as moment from 'moment';
 import Comments from './Comments';
 
@@ -14,7 +14,7 @@ class PostDetails extends Component {
         this.props.fetchComments(id);
     }
 
-    handleDeletePost = (id) => {
+     handleDeletePost = (id) => {
         console.log('Post to delete from PostList.js ', id)
         this.props.deletePost(id);
         this.props.history.push("/");
@@ -22,19 +22,15 @@ class PostDetails extends Component {
 
     handleUpVotePost = (id) => {
         this.props.upVote(id);
+        this.forceUpdate()
     }
 
     handleDownVotePost = (id) => {
         this.props.downVote(id);
+        this.forceUpdate()
     }
-
-    changeRoute = (post) => {
-        console.log('post to edit in PostList ', post)
-        const { history } = this.props
-        history.push(`/posts/edit/${post.id}`, { post })
-    }
-
-    render() {
+    
+    render(){
         console.log('props in PostDetails render ', this.props);
         let { id, title, author, body, category, timestamp, commentCount, voteScore } = this.props.post;
         // console.log('title in PostDetails render ', Array.from(this.props.post));
@@ -54,16 +50,16 @@ class PostDetails extends Component {
                         <span className="downVote" onClick={() => this.handleDownVotePost(id)}><i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
                         <span>{voteScore}</span>
                         <div className="pull-right btn-group">
-                            <span className="edit" onClick={() => this.changeRoute(this.props.post)}><i className="fa fa-pencil" aria-hidden="true"></i></span>
+                            <span className="edit"><i className="fa fa-pencil" aria-hidden="true"></i></span>
                             <span className="delete" onClick={() => this.handleDeletePost(id)}><i className="fa fa-trash" aria-hidden="true"></i></span>
                         </div>
                         <hr /><p>{body}</p>
                     </div>
                 </div>
-                <hr />
+               <hr />
                 <div className="row">
                     <div className="col-xs-12">
-                        <Comments comments={this.props.comments} {...this.props} />
+                        <Comments comments={this.props.comments} {...this.props}/>
                     </div>
                 </div>
             </div>
@@ -75,12 +71,12 @@ const mapStateToProps = (state, ownProps) => {
     // console.log('state in PostDetails ', state)
     // console.log('ownProps in PostDetails ', ownProps)
     return {
-        post: state.post,
+        post: state.posts,
         comments: Object.values(state.comments),
     }
 }
 
 export default connect(
-    mapStateToProps,
-    { fetchPost, fetchComments, editPost, upVote, downVote, deletePost }
+    mapStateToProps, 
+    { fetchPost, fetchComments, upVote, downVote, deletePost}
 )(PostDetails);

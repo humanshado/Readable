@@ -2,6 +2,7 @@ import { FETCH_POSTS, SHOW_POST, ADD_POST, EDIT_POST, UPVOTE_POST, DOWNVOTE_POST
 
 
 export default function (state = {}, action) {
+    console.log('action in posts ', action)
     switch (action.type) {
         case FETCH_POSTS:
             return action.payload.reduce((acc, cur) => {
@@ -23,7 +24,7 @@ export default function (state = {}, action) {
         case UPVOTE_POST:
             return {
                 ...state,
-                [action.payload.id]:action.payload
+                [action.payload.id]: action.payload
             }
         case DOWNVOTE_POST:
             return {
