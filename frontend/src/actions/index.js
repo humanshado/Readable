@@ -21,9 +21,32 @@ export const FETCH_CATEGORY_POSTS ="FETCH_CATEGORY_POSTS";
 export const FETCH_COMMENTS = "FETCH_COMMENTS";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const ADD_POST = "ADD_POST";
+export const EDIT_POST = "EDIT_POST";
 export const DELETE_POST = "DELETE_POST";
+export const DELETE_COMMENT = "DELETE_COMMENT";
 
 
+// export function fetchCategories() {
+//     const request = fetch(`${root_api}/categories`, { headers });
+
+//     return (dispatch) => {
+//         request.then(response => response.json())
+//             .then(categories => {
+//                 console.log('categories received async ', Promise.all((Object.values(categories)).map(category => {
+//                     return fetch(`${root_api}/posts`, { headers })
+//                         .then(res => res.json())
+//                         .then(posts => posts.filter(post => post.category === category.name))
+//                         .then(categoryPosts => category.posts = categoryPosts)
+//                         .then(() => category)
+//                 }))
+//                     .then(categories => dispatch({
+//                         type: FETCH_CATEGORIES,
+//                         payload: categories
+//                     }))
+//                 )
+//             })
+//     }
+// }
 
 export function fetchCategories() {
     const request = fetch(`${root_api}/categories`, { headers });
@@ -44,32 +67,18 @@ export function fetchPosts() {
 
     return (dispatch) => {
         request.then(response => response.json())
-                .then(json => {
-                    dispatch({
-                        type: FETCH_POSTS,
-                        payload: json
-                    })
-            }).catch(error => console.log("Oh Yawsa! Request Failed: ", error));
-    } 
+            .then(posts => { console.log('posts received async ', Promise.all(posts.map(post => {
+                return fetch(`${root_api}/posts/${post.id}/comments`, { headers })
+                        .then(res => res.json())
+                            .then(comments => post.comments = comments)
+                                .then(() => post)}))
+                                    .then(posts => dispatch({
+                                        type: FETCH_POSTS,
+                                        payload: posts
+                                    }))
+            )})
+    }
 }
-
-// export function fetchPosts() {
-//     const request = fetch(`${root_api}/posts`, { headers });
-
-//     return (dispatch) => {
-//         request.then(response => response.json())
-//             .then(posts => { console.log('posts received async ', Promise.all(posts.map(post => {
-//                 return fetch(`${root_api}/posts/${post.id}/comments`, { headers })
-//                         .then(res => res.json())
-//                             .then(comments => post.comments = comments)
-//                                 .then(() => post)}))
-//                                     .then(posts => dispatch({
-//                                         type: FETCH_POSTS,
-//                                         payload: posts
-//                                     }))
-//             )})
-//     }
-// }
 
 export function addPost(post){
     const request = fetch(`${root_api}/posts`, {
@@ -87,6 +96,25 @@ export function addPost(post){
             }).catch(error => error);
     }
 }
+
+export function editPost(post){
+    const request = fetch(`${root_api}/posts/${post.id}`, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(post)
+    })
+    return (dispatch) => {
+        request.then(response => response.json())
+            .then(json => {
+                dispatch({
+                    type: EDIT_POST,
+                    payload: json
+                })
+            }).catch(error => error);
+    }
+
+}
+
 
 export function deletePost(id){
     const request = fetch(`${root_api}/posts/${id}`, {
@@ -201,6 +229,32 @@ export function addComment({...comment}){
                 })
             }).catch(error => error);
     }
+}
+
+// export const editComment = (comment) =>
+//     fetch(`${api}/comments/${comment.id}`, {
+//         method: "PUT",
+//         headers,
+//         body: JSON.stringify(comment)
+//     })
+//         .then(res => res.json())
+//         .catch(error => error);
+
+export function deleteComment(id){
+    const request = fetch(`${root_api}/comments/${id}`, {
+        method: "DELETE",
+        headers
+    })
+    return (dispatch) => {
+        request.then(response => response.json())
+            .then(comments => {
+                dispatch({
+                    type: DELETE_COMMENT,
+                    payload: comments
+                })
+            }).catch(error => console.log("Oh Yawsa! Request Failed: ", error));
+    } 
+        
 
 }
 

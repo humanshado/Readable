@@ -4,20 +4,37 @@ import { bindActionCreators } from 'redux';
 import * as moment from 'moment';
 import { Field, reduxForm } from 'redux-form';
 import uuidv4 from 'uuid/v4';
-import { addComment } from '../actions';
+import { addComment, deleteComment } from '../actions';
 
 class Comments extends Component {
+
+    handleDeleteComment = (id) => {
+        console.log('Comment to delete from Comment.js ', id)
+        this.props.deleteComment(id);
+    }
+
+    // changeRoute = (post) => {
+    //     console.log('post to edit in PostList ', post)
+    //     const { history } = this.props
+    //     history.push(`/posts/edit/${post.id}`, { post })
+    // }
 
     renderComments = () => {
         return this.props.comments.map((c => {
             return (
                <div key={c.id}>
                    <h4>{c.body}</h4>
-                   <p>
+                   <div>
                         by:<span className="text-muted">{c.author}</span>
                         <span className="text-muted">{moment(c.timestamp).fromNow()}</span>
-                        votes:<span className="text-muted">{c.voteScore}</span>
-                   </p>
+                        | votes: <span className="upVote" onClick={() => this.handleUpVoteComment(c.id)}><i className="fa fa-heart" aria-hidden="true"></i></span>
+                        <span className="downVote" onClick={() => this.handleDownVoteComment(c.id)}><i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
+                        <span className="text-muted">{c.voteScore}</span>
+                        <div className="pull-right btn-group">
+                            <span className="edit"><i className="fa fa-pencil" aria-hidden="true"></i></span>
+                            <span className="delete" onClick={() => this.handleDeleteComment(c.id)}><i className="fa fa-trash" aria-hidden="true"></i></span>
+                        </div>
+                   </div>
                </div>
             )
         }))
@@ -61,7 +78,7 @@ class Comments extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ addComment }, dispatch);
+    return bindActionCreators({ addComment, deleteComment }, dispatch);
 }
 
 Comments = connect(null, mapDispatchToProps)(Comments);

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
 import { fetchPost, fetchComments, upVote, downVote, deletePost } from '../actions';
 import * as moment from 'moment';
 import Comments from './Comments';
@@ -21,6 +20,16 @@ class PostDetails extends Component {
         this.props.history.push("/");
     }
 
+    handleUpVotePost = () => {
+        const { id } = this.props.match.params;
+        this.props.upVote(id);
+    }
+
+    handleDownVotePost = () => {
+        const { id } = this.props.match.params;
+        this.props.downVote(id);
+    }
+
     render(){
         console.log('props in PostDetails render ', this.props);
         let { id, title, author, body, category, timestamp, commentCount, voteScore } = this.props.post;
@@ -37,12 +46,12 @@ class PostDetails extends Component {
                         posted by:<span style={{ "color": "red" }}><i className="fa fa-user-circle" aria-hidden="true"></i> <strong>{author}</strong></span> |
                         <span className="text-muted">{moment(timestamp).fromNow()}</span> |
                             comments: <span className="badge badge-primary">{commentCount}</span>
-                        | votes: <span className="upVote" onClick={() => this.props.upVote(id)}><i className="fa fa-heart" aria-hidden="true"></i></span>
-                        <span className="downVote" onClick={() => this.props.downVote(id)}><i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
+                        | votes: <span className="upVote" onClick={this.handleUpVotePost}><i className="fa fa-heart" aria-hidden="true"></i></span>
+                        <span className="downVote" onClick={this.handleDownVotePost}><i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
                         <span>{voteScore}</span>
                         <div className="pull-right btn-group">
-                            <span className="edit btn btn-default"><i className="fa fa-pencil" aria-hidden="true"></i></span>
-                            <span className="delete btn btn-default" onClick={() => this.handleDeletePost(id)}><i className="fa fa-trash" aria-hidden="true"></i></span>
+                            <span className="edit"><i className="fa fa-pencil" aria-hidden="true"></i></span>
+                            <span className="delete" onClick={() => this.handleDeletePost(id)}><i className="fa fa-trash" aria-hidden="true"></i></span>
                         </div>
                         <hr /><p>{body}</p>
                     </div>
@@ -67,10 +76,7 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ fetchPost, fetchComments, upVote, downVote, deletePost }, dispatch);
-}
-
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostDetails);
+export default connect(
+    mapStateToProps, 
+    { fetchPost, fetchComments, upVote, downVote, deletePost}
+)(PostDetails);

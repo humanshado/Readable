@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
-import { fetchPosts, upVote, downVote, deletePost } from '../actions';
+import { fetchPosts, upVote, downVote, editPost, deletePost } from '../actions';
 import * as moment from 'moment';
 import sortBy from 'sort-by';
 
@@ -22,6 +21,20 @@ class PostsList extends Component {
         this.props.deletePost(id);
     }
 
+    handleUpVotePost = (id) => {
+        this.props.upVote(id);
+    }
+
+    handleDownVotePost = (id) => {
+        this.props.downVote(id);
+    }
+
+    changeRoute = (post) => {
+        console.log('post to edit in PostList ', post)
+        const { history } = this.props
+        history.push(`/posts/edit/${post.id}`, {post} )
+    }
+
     renderPosts = () => {
        
         return this.props.posts && this.props.posts.map((post) => {
@@ -36,13 +49,13 @@ class PostsList extends Component {
                         posted by:<span style={{"color" : "red"}}><i className="fa fa-user-circle" aria-hidden="true"></i> <strong>{post.author}</strong></span> |  
                         <span className="text-muted">{ moment(post.timestamp).fromNow()}</span> |
                         comments: <span className="badge badge-primary">{post.commentCount}</span>
-                        | votes: <span className="upVote" onClick={() => this.props.upVote(post.id)}><i className="fa fa-heart" aria-hidden="true"></i></span>
-                        <span className="downVote" onClick={ () => this.props.downVote(post.id)}><i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
+                    | votes: <span className="upVote" onClick={() => this.handleUpVotePost(post.id)}><i className="fa fa-heart" aria-hidden="true"></i></span>
+                    <span className="downVote" onClick={() => this.handleDownVotePost(post.id)}><i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
                         <span>{post.voteScore}</span>
                     </div>
                     <div className="pull-right btn-group">
-                        <span className="edit btn btn-default"><i className="fa fa-pencil" aria-hidden="true"></i></span>
-                        <span className="delete btn btn-default" onClick={() => this.handleDeletePost(post.id)}><i className="fa fa-trash" aria-hidden="true"></i></span>
+                        <span className="edit" onClick={() => this.changeRoute(post)}><i className="fa fa-pencil" aria-hidden="true"></i></span>
+                        <span className="delete" onClick={() => this.handleDeletePost(post.id)}><i className="fa fa-trash" aria-hidden="true"></i></span>
                     </div>
                 </li>
             ) 
@@ -88,8 +101,7 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ fetchPosts, upVote, downVote, deletePost }, dispatch); 
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostsList);
+export default connect(
+    mapStateToProps, 
+    { fetchPosts, upVote, downVote, editPost, deletePost }
+)(PostsList);

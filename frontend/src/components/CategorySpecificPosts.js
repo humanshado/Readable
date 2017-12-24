@@ -42,8 +42,8 @@ class CategorySpecificPosts extends Component {
                     <span>{post.voteScore}</span>
                 </div>
                 <div className="pull-right btn-group">
-                    <span className="edit btn btn-default"><i className="fa fa-pencil" aria-hidden="true"></i></span>
-                    <span className="delete btn btn-default" onClick={() => this.handleDeletePost(post.id)}><i className="fa fa-trash" aria-hidden="true"></i></span>
+                    <span className="edit"><i className="fa fa-pencil" aria-hidden="true"></i></span>
+                    <span className="delete" onClick={() => this.handleDeletePost(post.id)}><i className="fa fa-trash" aria-hidden="true"></i></span>
                 </div>
             </li>
             )

@@ -11,10 +11,10 @@ class ListCategories extends Component {
     }
 
     renderCategories = () => {
-        return this.props.categories.map((category) => {
+        return this.props.categories.map((category, index) => {
             return(
-                 <Link to={`/${category.name}/posts`}> 
-                    <li key={category.name}>
+                <Link to={`/${category.name}/posts`} key={index}> 
+                    <li>
                         <i className="fa fa-book" aria-hidden="true"></i> {_.capitalize(category.name)}
                     </li>
                 </Link>
@@ -23,7 +23,7 @@ class ListCategories extends Component {
     }
 
     render() {
-        console.log('props in ListCategory.js render ', this.props);
+        //console.log('props in ListCategory.js render ', this.props);
 
         return (
             <div>
@@ -37,7 +37,8 @@ class ListCategories extends Component {
 }
 
 const mapStateToProps = (state,ownProps) => {
-    //console.log('ownProps in ListCategory.js mapStateToProps ',ownProps)
+    // console.log('state in ListCategory.js mapStateToProps ', state)
+    // console.log('ownProps in ListCategory.js mapStateToProps ',ownProps)
     return {
         categories: Object.values(state.categories)
     }
