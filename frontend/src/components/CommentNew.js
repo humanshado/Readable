@@ -46,7 +46,8 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 CommentsNew = reduxForm({
-    form: "addNewCommentForm"
+    form: "addNewCommentForm",
+    fields: ['author', 'body']
 })(CommentsNew);
 
 export default CommentsNew;

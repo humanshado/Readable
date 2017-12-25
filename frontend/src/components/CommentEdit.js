@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as moment from 'moment';
 import { Field, reduxForm } from 'redux-form';
 import { editComment } from '../actions';
 
@@ -10,7 +9,7 @@ class CommentsEdit extends Component {
     submitNewComment = () => {
         const { selectedComment } = this.props;
         this.props.editComment(selectedComment)
-        this.props.reset();
+        //this.props.reset();
     }
 
     render() {
@@ -32,31 +31,17 @@ class CommentsEdit extends Component {
         )
     }
 }
-const mapStateToProps = (state, ownProps) => {
-    // return {
-    //     initialValues: {
-    //         author: this.props.selectedComment.author,
-    //         body: state.selectedComment.body
-    //     }
-    // }
-}
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({ editComment }, dispatch);
 }
 
 CommentsEdit = reduxForm({
-    form: "editCommentForm"
+    form: "editCommentForm",
+    fields: ['author', 'body']
 })(CommentsEdit);
 
 CommentsEdit = connect(
-    // (state) => (
-        // {
-        //     initialValues: {
-        //         author: state.selectedComment.author,
-        //         body: state.selectedComment.body
-        //     }
-        // }),
     null,
     mapDispatchToProps
 )(CommentsEdit);

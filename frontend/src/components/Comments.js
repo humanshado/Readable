@@ -101,6 +101,10 @@ class Comments extends Component {
                         <CommentsEdit 
                             selectedComment={this.state.selectedComment}
                             editComment={this.props.editComment}
+                            initialValues={{
+                                author: this.state.selectedComment.author,
+                                body: this.state.selectedComment.body
+                            }}
                         />
                     </div>
                     : <div style={{ "padding": "20px", "borderRadius": "10px" }}>
