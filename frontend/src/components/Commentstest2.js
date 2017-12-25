@@ -5,11 +5,9 @@ import * as moment from 'moment';
 import { Field, reduxForm } from 'redux-form';
 import uuidv4 from 'uuid/v4';
 import { addComment, editComment, deleteComment } from '../actions';
-import CommentsNew from './CommentNew';
-import CommentsEdit from './CommentEdit';
 
 class Comments extends Component {
-    constructor(props) {
+    constructor(props){
         super(props);
 
         this.state = {
@@ -27,9 +25,9 @@ class Comments extends Component {
     toggleEdit = (comment) => {
         console.log('toggleEdit ', this.state.isEditing)
         console.log('selectedComment in toggleEdit ', comment)
-        this.setState({
+        this.setState({ 
             isEditing: !this.state.isEditing,
-            selectedComment: comment
+            selectedComment: comment 
         })
     }
 
@@ -51,9 +49,9 @@ class Comments extends Component {
     renderComments = () => {
         return this.props.comments.map((comment => {
             return (
-                <div key={comment.id}>
+               <div key={comment.id}>
                     <i className="fa fa-comment-o" aria-hidden="true"></i><h4>{comment.body}</h4>
-                    <div>
+                   <div>
                         by:<span className="text-muted">{comment.author}</span>
                         <span className="text-muted">{moment(comment.timestamp).fromNow()}</span>
                         | votes: <span className="upVote" onClick={() => this.handleUpVoteComment(comment.id)}><i className="fa fa-heart" aria-hidden="true"></i></span>
@@ -63,23 +61,23 @@ class Comments extends Component {
                             <span className="edit" onClick={() => this.toggleEdit(comment)}><i className="fa fa-pencil" aria-hidden="true"></i></span>
                             <span className="delete" onClick={() => this.handleDeleteComment(comment.id)}><i className="fa fa-trash" aria-hidden="true"></i></span>
                         </div>
-                    </div>
-                </div>
+                   </div>
+               </div>
             )
         }))
     }
 
-    submitNewComment = (values) => {
-        this.props.addComment({
-            ...values,
-            id: uuidv4(),
-            parentId: this.props.post.id,
-            timestamp: Date.now(),
-            voteScore: 0,
-            deleted: false,
-            parentDeleted: false
-        })
-        this.props.reset();
+   submitNewComment = (values) => {
+       this.props.addComment({
+           ...values,
+           id: uuidv4(),
+           parentId: this.props.post.id,
+           timestamp: Date.now(),
+           voteScore: 0,
+           deleted: false,
+           parentDeleted: false
+       })
+       this.props.reset();
     }
 
     submitEditedComment = () => {
@@ -87,32 +85,46 @@ class Comments extends Component {
         this.props.editComment(selectedComment)
         this.props.reset();
     }
-
-    render() {
+   
+    render(){
         console.log('props in Comments.js ', this.props);
-        const { handleSubmit, pristine, submitting } = this.props;
+        const {  handleSubmit, pristine, submitting } = this.props;
 
-        return (
+        return(
             <div className="comments-wrapper">
                 <h5 className="text-muted">Comments</h5>
-                {this.state.isEditing
-                    ? <div style={{ "backgroundColor": "#F2F3F5", "padding": "20px", "borderRadius": "10px" }}>
-                        <h5>Editing...</h5>
-                        <CommentsEdit 
-                            selectedComment={this.state.selectedComment}
-                            editComment={this.props.editComment}
-                        />
-                    </div>
-                    : <div style={{ "padding": "20px", "borderRadius": "10px" }}>
-                        <h5>New...</h5>
-                        <CommentsNew 
-                            parentId={this.props.post.id}
-                            addComment={this.props.addComment}
-                        />
-                    </div>
+                { this.state.isEditing 
+                    ? <div style={{ "backgroundColor": "#F2F3F5", "padding": "20px", "border-radius": "10px" }}>
+                            <h5>Editing...</h5>
+                            <form className="form-inline" onSubmit={handleSubmit(this.submitEditedComment)}>
+                                <div className="form-group">
+                                    <label htmlFor="author">Name:</label>
+                                    <Field name="author" component="input" type="text" className="form-control" placeholder="enter your name" />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="body">Comment:</label>
+                                    <Field name="body" component="input" type="textarea" id="comment-box" className="form-control" placeholder="write your comments here..." />
+                                </div>
+                            <button type="submit" className="btn btn-default" style={{ "display": "none" }} disabled={pristine || submitting} >Submit</button>
+                            </form>  
+                        </div>
+                    : <div style={{ "padding": "20px", "border-radius": "10px" }}>
+                            <h5>New...</h5>
+                            <form className="form-inline" onSubmit={handleSubmit(this.submitNewComment)}>
+                            <div className="form-group">
+                                <label htmlFor="author">Name:</label>
+                                <Field name="author" component="input" type="text" className="form-control" placeholder="enter your name"/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="body">Comment:</label>
+                                <Field name="body" component="input" type="textarea" id="comment-box" className="form-control" placeholder="write your comments here..." />
+                            </div>
+                            <button type="submit" className="btn btn-default" style={{ "display": "none" }} disabled={ pristine || submitting} >Submit</button>
+                            </form> 
+                        </div>
                 }
                 <hr />
-                {this.props.comments && this.renderComments()}
+                 { this.props.comments && this.renderComments() }
             </div>
         )
     }
@@ -127,6 +139,6 @@ Comments = connect(
     mapDispatchToProps
 )(Comments);
 
-export default Comments;
-
-
+export default reduxForm({
+    form: 'CommentsForm'
+})(Comments);

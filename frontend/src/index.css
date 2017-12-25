@@ -31,6 +31,7 @@ body {
 .banner{
   position: sticky !important;
   top: 70px !important;
+  z-index: 12;
 }
 
 .summary-links span{
