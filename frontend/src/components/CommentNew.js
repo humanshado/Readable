@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as moment from 'moment';
 import { Field, reduxForm } from 'redux-form';

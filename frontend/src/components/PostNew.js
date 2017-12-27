@@ -9,7 +9,7 @@ import { addPost } from '../actions';
 
 class PostNew extends Component {
 
-    submitPost = (values) => {
+    onSubmit = (values) => {
         this.props.addPost({
             ...values,
             id: uuidv4(),
@@ -27,7 +27,7 @@ class PostNew extends Component {
         return (
             <div className="post-new">
                 <h4>New Post</h4>
-                <form onSubmit={handleSubmit(this.submitPost)}>
+                <form onSubmit={handleSubmit(this.onSubmit)}>
                     <div className="form-group">
                         <label htmlFor="author">Name:</label>
                         <Field name="author" component="input" type="text" className="form-control" placeholder="enter your name" autoFocus />

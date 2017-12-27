@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchPosts, upVote, downVote, editPost, deletePost } from '../actions';
+import { fetchPosts, fetchCategories, upVote, downVote, editPost, deletePost } from '../actions';
 import * as moment from 'moment';
 import sortBy from 'sort-by';
+import ListCategories from './ListCategories';
 
 
 
@@ -12,9 +13,7 @@ class PostsList extends Component {
         super(props);
 
         this.state = {
-            sortOption: " ",
-            isCategoryActive: false,
-            selectedCategory: ""
+            sortOption: " "
         }
     }
 
@@ -113,11 +112,11 @@ const mapStateToProps = (state, ownProps) => {
     console.log('ownProps in PostsList.js' ,ownProps);
     return {
         posts: Object.values(state.posts),
-        //comments: Object.values(state.posts).map(p => p.comments)
+        categories: state.categories
     }
 }
 
 export default connect(
     mapStateToProps, 
-    { fetchPosts, upVote, downVote, editPost, deletePost }
+    { fetchPosts, fetchCategories, upVote, downVote, editPost, deletePost }
 )(PostsList);

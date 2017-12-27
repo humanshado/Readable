@@ -1,4 +1,4 @@
-import { FETCH_CATEGORY_POSTS, SHOW_CATEGORY_POST, UPVOTE_POST, DOWNVOTE_POST, DELETE_POST } from '../actions';
+import { FETCH_CATEGORY_POSTS, SHOW_CATEGORY_POST, EDIT_CATEGORY_POST, UPVOTE_CATEGORY_POST, DOWNVOTE_CATEGORY_POST, DELETE_POST } from '../actions';
 
 export default function (state = {}, action) {
     switch (action.type) {
@@ -6,6 +6,17 @@ export default function (state = {}, action) {
             return Object.assign({}, state, action.payload);
         case SHOW_CATEGORY_POST:
             return Object.assign({}, state, action.payload);
+        case EDIT_CATEGORY_POST:
+            const allCategoryPosts = Object.values(state);
+            const notPost = allCategoryPosts.filter(post => post.id !== action.payload.id);
+            return {
+                notPost,
+                [action.payload.id]: action.payload
+            }
+        case UPVOTE_CATEGORY_POST:
+            return Object.assign({}, state, action.payload)
+        case DOWNVOTE_CATEGORY_POST:
+            return Object.assign({}, state, action.payload)
         case DELETE_POST:
             const allPosts = Object.values(state);
             const newState = allPosts.filter(p => p.id !== action.payload.id)

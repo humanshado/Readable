@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as moment from 'moment';
-import { Field, reduxForm } from 'redux-form';
-import uuidv4 from 'uuid/v4';
-import { addComment, editComment, deleteComment } from '../actions';
+import { getFormValues, isDirty, isPristine } from 'redux-form';
+import { addComment, editComment, upVoteComment, downVoteComment, deleteComment } from '../actions';
 import CommentsNew from './CommentNew';
 import CommentsEdit from './CommentEdit';
 
@@ -33,25 +32,18 @@ class Comments extends Component {
         })
     }
 
-    // componentWillReceiveProps = (nextProps) => {
-    //     this.props.comments.map((c, i) => {
-    //         if ((c.author != nextProps.comments[i].author) || (c.body != nextProps.comments[i].body) || (c.voteScore != nextProps.comments[i].voteScore) ){
-    //             this.setState({ comments: nextProps.comments })
-    //         }
-    //     })
-    // }
+    handleUpVoteComment = (id) => {
+        this.props.upVoteComment(id)
+    }
 
-    // updateCommentState(e, i) {
-    //     const field = e.target.name;
-    //     const comment = this.state.comments[i];
-    //     comment[field] = e.target.value;
-    //     return this.setState({ comments: comments });
-    // }
+    handleDownVoteComment = (id) => {
+        this.props.downVoteComment(id)
+    }
 
     renderComments = () => {
-        return this.props.comments.map((comment => {
+        return this.props.comments.map((comment, index) => {
             return (
-                <div key={comment.id}>
+                <div key={index}>
                     <i className="fa fa-comment-o" aria-hidden="true"></i><h4>{comment.body}</h4>
                     <div>
                         by:<span className="text-muted">{comment.author}</span>
@@ -66,32 +58,12 @@ class Comments extends Component {
                     </div>
                 </div>
             )
-        }))
-    }
-
-    submitNewComment = (values) => {
-        this.props.addComment({
-            ...values,
-            id: uuidv4(),
-            parentId: this.props.post.id,
-            timestamp: Date.now(),
-            voteScore: 0,
-            deleted: false,
-            parentDeleted: false
         })
-        this.props.reset();
     }
 
-    submitEditedComment = () => {
-        const { selectedComment } = this.state;
-        this.props.editComment(selectedComment)
-        this.props.reset();
-    }
 
     render() {
         console.log('props in Comments.js ', this.props);
-        const { handleSubmit, pristine, submitting } = this.props;
-
         return (
             <div className="comments-wrapper">
                 <h5 className="text-muted">Comments</h5>
@@ -123,7 +95,7 @@ class Comments extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ addComment, editComment, deleteComment }, dispatch);
+    return bindActionCreators({ addComment, editComment, upVoteComment, downVoteComment, deleteComment }, dispatch);
 }
 
 Comments = connect(

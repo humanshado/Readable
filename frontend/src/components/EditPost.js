@@ -1,24 +1,66 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, getFormInitialValues } from 'redux-form';
 import { Link } from 'react-router-dom';
-import uuidv4 from 'uuid/v4';
 import { editPost } from '../actions';
 
 
 class EditPost extends Component {
+    constructor(props){
+        super(props);
 
-    submitPost = () => {
-        const { post } = this.props.location.state;
-        this.props.editPost(post)
+        this.state = {
+            post: this.props.location.state.post
+        }
+
+        this.submitPost = this.submitPost.bind(this);
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+        console.log('nextProps in EditPost ', nextProps);
+        if (this.props.location.state.post.id === nextProps.match.params.id){
+            if (this.props.location.state.post.author !== nextProps.location.state.post.author){
+                this.setState({
+                    post: nextProps.location.state.post
+                })
+            }
+            if (this.props.location.state.post.title !== nextProps.location.state.post.title) {
+                this.setState({
+                    post: nextProps.location.state.post
+                })
+            }
+            if (this.props.location.state.post.category !== nextProps.location.state.post.category) {
+                this.setState({
+                    post: nextProps.location.state.post
+                })
+            }
+            if (this.props.location.state.post.body !== nextProps.location.state.post.body) {
+                this.setState({
+                    post: nextProps.location.state.post
+                })
+            }
+        }
+    }
+
+    submitPost = (values) => {
+        console.log('values in EditPost submitPost ', values);
+        const { post } = this.state;
+        this.props.editPost({
+                ...values,
+                id: post.id,
+                timestamp: post.timestamp,
+                voteScore: post.voteScore,
+                deleted: false,
+                commentCount: post.voteScore
+        })
         this.props.history.push("/");
     }
 
     render() {
 
         console.log('props to edit in EditPost ', this.props);
-        const { initialize, handleSubmit, reset, pristine, submitting } = this.props;
+        const { handleSubmit, reset, pristine, submitting } = this.props;
         return (
             <div className="post-new">
                 <h4>Edit Post</h4>
@@ -60,12 +102,14 @@ class EditPost extends Component {
     }
 }
 
+
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({ editPost }, dispatch);
 }
 
 EditPost = reduxForm({
-    form: "editPostForm"
+    form: "editPostForm",
+    fields: ['author', 'title', 'category', 'body']
 })(EditPost);
 
 EditPost = connect(

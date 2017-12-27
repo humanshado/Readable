@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, getFormValues, getFormInitialValues, isDirty, isPristine } from 'redux-form';
 import { editComment } from '../actions';
 
 class CommentsEdit extends Component {
 
-    submitNewComment = () => {
+    submitEditedComment = () => {
         const { selectedComment } = this.props;
         this.props.editComment(selectedComment)
         //this.props.reset();
@@ -17,7 +17,7 @@ class CommentsEdit extends Component {
         const { handleSubmit, pristine, submitting } = this.props;
 
         return (
-            <form className="form-inline" onSubmit={handleSubmit(this.submitNewComment)}>
+            <form className="form-inline" onSubmit={handleSubmit(this.submitEditedComment)}>
                 <div className="form-group">
                     <label htmlFor="author">Name:</label>
                     <Field name="author" component="input" type="text" className="form-control" placeholder="enter your name" />
@@ -42,7 +42,11 @@ CommentsEdit = reduxForm({
 })(CommentsEdit);
 
 CommentsEdit = connect(
-    null,
+    state => ({
+        values: getFormValues('editCommentForm'),
+        dirty: isDirty('editCommentForm'),
+        pristine: isPristine('editCommentForm')
+    }),
     mapDispatchToProps
 )(CommentsEdit);
 

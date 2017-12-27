@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { fetchCategoryPosts, upVote, downVote, deletePost } from '../actions';
+import { fetchCategoryPosts, editPost, upVote, downVote, deletePost } from '../actions';
 import * as moment from 'moment';
 
 
@@ -26,6 +26,12 @@ class CategorySpecificPosts extends Component {
         this.props.downVote(id);
     }
 
+    changeRoute = (post) => {
+        console.log('post to edit in CategoryPostList ', post)
+        const { history } = this.props
+        history.push(`/posts/edit/${post.id}`, { post })
+    }
+
     renderPosts = () => {
         return this.props.CategoryPosts.map((post) => {
             return (<li key={post.id} className="list-group-item">
@@ -42,7 +48,7 @@ class CategorySpecificPosts extends Component {
                     <span>{post.voteScore}</span>
                 </div>
                 <div className="pull-right btn-group">
-                    <span className="edit"><i className="fa fa-pencil" aria-hidden="true"></i></span>
+                    <span className="edit" onClick={() => this.changeRoute(post)}><i className="fa fa-pencil" aria-hidden="true"></i></span>
                     <span className="delete" onClick={() => this.handleDeletePost(post.id)}><i className="fa fa-trash" aria-hidden="true"></i></span>
                 </div>
             </li>
@@ -77,7 +83,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ fetchCategoryPosts, upVote, downVote, deletePost }, dispatch);
+    return bindActionCreators({ fetchCategoryPosts,editPost, upVote, downVote, deletePost }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategorySpecificPosts);

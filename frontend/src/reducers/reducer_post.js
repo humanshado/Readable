@@ -7,6 +7,10 @@ export default function (state = {}, action) {
         case FETCH_POST:
             return Object.assign({}, state, action.payload);
         case EDIT_DETAIL_POST:
+            // return [
+            //     ...state.filter(post => post.id !== action.payload.id),
+            //     Object.assign({}, action.payload)
+            // ]
             return {
                 ...state,
                 [action.payload.id]: action.payload
