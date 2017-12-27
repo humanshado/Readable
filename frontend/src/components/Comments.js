@@ -13,7 +13,6 @@ class Comments extends Component {
 
         this.state = {
             isEditing: false,
-            comments: [...this.props.comments],
             selectedComment: {}
         }
     }
@@ -23,7 +22,7 @@ class Comments extends Component {
         this.props.deleteComment(id);
     }
 
-    toggleEdit = (comment) => {
+    toggleEdit = (comment, isEditing = this.state.isEditing) => {
         console.log('toggleEdit ', this.state.isEditing)
         console.log('selectedComment in toggleEdit ', comment)
         this.setState({
@@ -73,6 +72,7 @@ class Comments extends Component {
                         <CommentsEdit 
                             selectedComment={this.state.selectedComment}
                             editComment={this.props.editComment}
+                            toggleEdit={this.toggleEdit}
                             initialValues={{
                                 author: this.state.selectedComment.author,
                                 body: this.state.selectedComment.body

@@ -94,11 +94,11 @@ export function addPost(post){
     }
 }
 
-export function editPost({ author,body,category,commentCount,deleted,id,timestamp,title,voteScore }){
-    const request = fetch(`${root_api}/posts/${id}`, {
+export function editPost(post) {
+    const request = fetch(`${root_api}/posts/${post.id}`, {
         method: "PUT",
         headers,
-        body: JSON.stringify({ author, body, category, commentCount, deleted, id, timestamp, title, voteScore })
+        body: JSON.stringify(post)
     })
     return (dispatch) => {
         request.then(response => response.json())

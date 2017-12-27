@@ -5,11 +5,44 @@ import { Field, reduxForm, getFormValues, getFormInitialValues, isDirty, isPrist
 import { editComment } from '../actions';
 
 class CommentsEdit extends Component {
+    constructor(props){
+        super(props);
 
-    submitEditedComment = () => {
-        const { selectedComment } = this.props;
-        this.props.editComment(selectedComment)
-        //this.props.reset();
+        this.state = {
+            comment: this.props.selectedComment
+        }
+
+        this.submitEditedComment = this.submitEditedComment.bind(this);
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+        console.log('nextProps in CommentsEdit ', nextProps);
+        if(this.props.selectedComment.id === nextProps.selectedComment.id){
+            if(this.props.selectedComment.author !== nextProps.selectedComment.author){
+                this.setState({ comment: nextProps.selectedComment})
+            }
+            if (this.props.selectedComment.body !== nextProps.selectedComment.body) {
+                this.setState({ comment: nextProps.selectedComment })
+            }
+        }
+    }
+
+
+    submitEditedComment = (values) => {
+        console.log('values in submitEditedComment ', values);
+        const { comment } = this.state;
+        this.props.editComment({
+            ...values,
+            id: comment.id,
+            parentId: comment.parentId,
+            timestamp: comment.timestamp,
+            votescore: comment.voteScore,
+            deleted: false,
+            parentDeleted: false
+        })
+
+        this.props.reset();
+        this.props.toggleEdit(true, comment);
     }
 
     render() {
