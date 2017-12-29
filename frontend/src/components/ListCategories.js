@@ -27,12 +27,12 @@ class ListCategories extends Component {
     renderCategories = () => {
         return this.props.categories.map((category, index) => {
             return (
-                <a key={index} onClick={() => this.makeActive(category)}>
+                <Link to="/" key={index} onClick={() => this.makeActive(category)}>
                     <li >
                         <i className="fa fa-book" aria-hidden="true"></i> 
                             <span>{_.capitalize(category.name)}</span>
                    </li>
-                </a>
+                </Link>
             )
         })
     }

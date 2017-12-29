@@ -14,8 +14,8 @@ class PostsList extends Component {
         super(props);
 
         this.state = {
-            sortOption: "",
-            isCategoryActive: true,
+            sortOption: "timestamp",
+            isCategoryActive: false,
             activeCategory: ""
         }
     }
@@ -74,9 +74,7 @@ class PostsList extends Component {
         return this.props.posts && posts.map((post) => {
             return(<li key={post.id} className="list-group-item posts-wrapper">
                     <div className="pull-left">
-                        <Link to={`/${post.category}/posts`}>
-                            <span style={{"color": "blue"}}><i className="fa fa-book" aria-hidden="true"></i> {post.category}</span>
-                        </Link>
+                        <span style={{"color": "blue"}}><i className="fa fa-book" aria-hidden="true"></i> {post.category}</span>
                         <Link to={`/posts/${post.id}`}>
                             <h4><strong>{post.title}</strong></h4>
                         </Link>
