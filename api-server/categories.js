@@ -6,24 +6,34 @@ let db = {}
 const defaultData = {
   categories: [
     {
+      name: 'all',
+      path: 'all',
+      isActive: false
+    },
+    {
       name: 'react',
-      path: 'react'
+      path: 'react',
+      isActive: false
     },
     {
       name: 'redux',
-      path: 'redux'
+      path: 'redux',
+      isActive: false
     },
     {
       name: 'udacity',
-      path: 'udacity'
+      path: 'udacity',
+      isActive: false
     },
     {
       name: 'sport',
-      path: 'sport'
+      path: 'sport',
+      isActive: false
     },
     {
       name: 'health',
-      path: 'health'
+      path: 'health',
+      isActive: false
     }
   ]
 }

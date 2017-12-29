@@ -17,19 +17,19 @@ class PostDetails extends Component {
     }
 
     componentWillReceiveProps = (nextProps) => {
-        if (this.props.post.id != nextProps.post.id) {
+        if (this.props.post.id !== nextProps.post.id) {
             this.forceUpdate()
         }
-        if (this.props.post.title != nextProps.post.title) {
+        if (this.props.post.title !== nextProps.post.title) {
             this.forceUpdate()
         }
-        if (this.props.post.author != nextProps.post.author) {
+        if (this.props.post.author !== nextProps.post.author) {
             this.forceUpdate()
         }
-        if (this.props.post.body != nextProps.post.body) {
+        if (this.props.post.body !== nextProps.post.body) {
             this.forceUpdate()
         }
-        if (this.props.post.category != nextProps.post.category) {
+        if (this.props.post.category !== nextProps.post.category) {
             this.forceUpdate()
         }
     }

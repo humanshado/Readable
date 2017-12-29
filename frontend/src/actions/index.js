@@ -14,10 +14,10 @@ const headers = {
 
 export const FETCH_CATEGORIES = "FETCH_CATEGORIES";
 export const FETCH_POSTS = "FETCH_POSTS";
+export const SHOW_POST = "FETCH_POST";
 export const UPVOTE_POST = "UPVOTE_POST";
 export const DOWNVOTE_POST = "DOWNVOTE_POST";
 export const FETCH_POST = "FETCH_POST";
-export const SHOW_POST = "FETCH_POST";
 export const FETCH_CATEGORY_POSTS ="FETCH_CATEGORY_POSTS";
 export const SHOW_CATEGORY_POST = "FETCH_POST";
 export const EDIT_CATEGORY_POST = "EDIT_POST";
@@ -33,7 +33,16 @@ export const EDIT_COMMENT = "EDIT_COMMENT";
 export const UPVOTE_COMMENT = "UPVOTE_COMMENT";
 export const DOWNVOTE_COMMENT = "DOWNVOTE_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
+export const SET_CATEGORY_FILTER = "SET_CATEGORY_FILTER";
 
+export function setCategoryFilter(...allCategories){
+    //console.log('category dispatched from actions ', category);
+    console.log('AllCategories dispatched from actions ', allCategories);   
+    return {
+        type: SET_CATEGORY_FILTER,
+        payload: allCategories
+    }
+}
 
 export function fetchCategories() {
     const request = fetch(`${root_api}/categories`, { headers });

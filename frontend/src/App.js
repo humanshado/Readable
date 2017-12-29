@@ -6,7 +6,7 @@ import CategorySummary from './components/CategorySummary';
 import PostsList from './components/PostsList';
 import PostDetails from './components/PostDetails';
 import EditPost from './components/EditPost';
-import CategorySpecificPosts from './components/CategorySpecificPosts';
+//import CategoryPosts from './components/CategoryPosts';
 import PostNew from './components/PostNew';
 
 class App extends Component {
@@ -36,13 +36,12 @@ class App extends Component {
 
               <div className="col-xs-12 col-md-9"> 
                     <Switch>
-                      <Route exact path="/" component={PostsList} />
-                      <Route exact path="/posts" component={PostsList} />
+                      <Route exact path="/" component={PostsList}/>
+                      <Route exact path="/posts" component={PostsList}/>
                       <Route exact path="/posts/new" component={PostNew} />
                       <Route exact path="/posts/:id" component={PostDetails} />
                       <Route exact path="/posts/edit/:id" component={EditPost} />   
                       <Route exact path="/categories" component={CategorySummary} />
-                      <Route exact path="/:categories/posts" component={CategorySpecificPosts} />
                     </Switch>
                 </div>
               </div>

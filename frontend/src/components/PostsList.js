@@ -1,7 +1,8 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchPosts, fetchCategories, upVote, downVote, editPost, deletePost } from '../actions';
+import { fetchPosts, upVote, downVote, editPost, deletePost } from '../actions';
 import * as moment from 'moment';
 import sortBy from 'sort-by';
 import ListCategories from './ListCategories';
@@ -13,16 +14,34 @@ class PostsList extends Component {
         super(props);
 
         this.state = {
-            sortOption: " "
+            sortOption: "",
+            isCategoryActive: true,
+            activeCategory: ""
         }
-    }
-
-    toggleCategory = () => {
-        this.setState({ isCategoryActive: !this.state.isCategoryActive });
     }
 
     componentDidMount() {
         this.props.fetchPosts();
+    }
+
+    toggleCategory = () => {
+        if((this.state.isCategoryActive && this.state.activeCategory === "all") || 
+            (!this.state.isCategoryActive && this.state.activeCategory !== "all")){
+                this.setState({ 
+                    isCategoryActive: !this.state.isCategoryActive
+                });
+        }
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+        console.log('nextProps in PostList.js ', nextProps);
+        if(this.props !== nextProps){
+            this.setState({
+                activeCategory: nextProps.activeCategory
+            }, (state) => {
+                this.toggleCategory();
+            })
+        }
     }
 
     handleDeletePost = (id) => {
@@ -44,9 +63,15 @@ class PostsList extends Component {
         history.push(`/posts/edit/${post.id}`, {post} )
     }
 
-    renderPosts = () => {
-       
-        return this.props.posts && this.props.posts.map((post) => {
+    updateSort = (e) => {
+        if (this.props.posts) {
+            this.setState({ sortOption: this.props.posts.sort(sortBy(e.target.value)) })
+        }
+    }
+
+    renderPosts = (posts) => {
+       console.log('posts in renderPosts ', posts);
+        return this.props.posts && posts.map((post) => {
             return(<li key={post.id} className="list-group-item posts-wrapper">
                     <div className="pull-left">
                         <Link to={`/${post.category}/posts`}>
@@ -71,25 +96,47 @@ class PostsList extends Component {
         });
     }
 
-    updateSort = (e) => {
-        if (this.props.posts) {
-            this.setState({ sortOption: this.props.posts.sort(sortBy(e.target.value)) })
+    getVisiblePosts = (posts, activeCategory) => {
+        console.log('posts inside getVisiblePosts ', posts);
+        console.log('activeCategory inside getVisiblePosts ', activeCategory);
+        switch (activeCategory) {
+            case 'all':
+                return posts
+            case 'react':
+                return posts.filter(post => post.category === activeCategory)
+            case 'redux':
+                return posts.filter(post => post.category === activeCategory)
+            case 'udacity':
+                return posts.filter(post => post.category === activeCategory)
+            case 'sport':
+                return posts.filter(post => post.category === activeCategory)
+            case 'health':
+                return posts.filter(post => post.category === activeCategory)
+            default:
+                return posts
         }
     }
 
+    
     render(){
         console.log('props in PostsList.js ', this.props);
+        console.log('activeCategory PostsList.js props ', ...this.props.activeCategory);
+        console.log('activeCategory PostsList.js local state ', ...this.state.activeCategory);
+        let posts = this.getVisiblePosts(this.props.posts, ...this.state.activeCategory);
 
         return (
             <div>
-                {this.state.isCategoryActive              
+                {this.state.isCategoryActive           
                 ?   <span className="col-xs-12 col-md-10 main-blog">
                         <h5>Category Posts here ...</h5>
-                        {}
+                        <ul className="list-group">
+                            {this.renderPosts(posts)}
+                        </ul>
                     </span>
                 :   <span className="col-xs-12 col-md-10 main-blog">
+                        <h5>All Posts here ...</h5>
                         <ul className="list-group">
-                            {this.renderPosts()}
+                            {this.renderPosts(posts)}
                         </ul>
                     </span>
                 }
@@ -110,13 +157,14 @@ class PostsList extends Component {
 const mapStateToProps = (state, ownProps) => {
     console.log('state in PostsList.js' ,state.posts);
     console.log('ownProps in PostsList.js' ,ownProps);
-    return {
-        posts: Object.values(state.posts),
-        categories: state.categories
+    return {    
+                posts: Object.values(state.posts),
+                activeCategory: Object.values(state.categories).filter(c => c.isActive === true ).map(c1 => c1.name)
+        
     }
 }
 
 export default connect(
     mapStateToProps, 
-    { fetchPosts, fetchCategories, upVote, downVote, editPost, deletePost }
+    { fetchPosts, upVote, downVote, editPost, deletePost }
 )(PostsList);

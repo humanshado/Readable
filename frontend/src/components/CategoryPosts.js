@@ -13,6 +13,10 @@ class CategorySpecificPosts extends Component {
         this.props.fetchCategoryPosts(categories);
     }
 
+    componentWillReceiveProps = (nextProps) => {
+        console.log('nextProps in CategorySpecificPosts ', nextProps);
+    }
+
     handleDeletePost = (id) => {
         console.log('Post to delete from PostList.js ', id)
         this.props.deletePost(id);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Field, reduxForm, getFormValues, getFormInitialValues, isDirty, isPristine } from 'redux-form';
+import { Field, reduxForm, getFormValues, isDirty, isPristine } from 'redux-form';
 import { editComment } from '../actions';
 
 class CommentsEdit extends Component {
