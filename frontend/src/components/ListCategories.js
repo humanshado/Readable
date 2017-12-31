@@ -29,8 +29,11 @@ class ListCategories extends Component {
             return (
                 <Link to="/" key={index} onClick={() => this.makeActive(category)}>
                     <li >
-                        <i className="fa fa-book" aria-hidden="true"></i> 
-                            <span>{_.capitalize(category.name)}</span>
+                        {category.name === "all"
+                        ?   <i className="fa fa-list" aria-hidden="true"></i>   
+                        :   <i className="fa fa-book" aria-hidden="true"></i> 
+                        }
+                            <span> {_.capitalize(category.name)}</span>
                    </li>
                 </Link>
             )

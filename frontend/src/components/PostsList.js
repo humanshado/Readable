@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchPosts, upVote, downVote, editPost, deletePost } from '../actions';
+import { fetchPosts, upVotePost, downVotePost, editPost, deletePost } from '../actions';
 import * as moment from 'moment';
 import sortBy from 'sort-by';
 import ListCategories from './ListCategories';
@@ -50,11 +50,11 @@ class PostsList extends Component {
     }
 
     handleUpVotePost = (id) => {
-        this.props.upVote(id);
+        this.props.upVotePost(id);
     }
 
     handleDownVotePost = (id) => {
-        this.props.downVote(id);
+        this.props.downVotePost(id);
     }
 
     changeRoute = (post) => {
@@ -164,5 +164,5 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
     mapStateToProps, 
-    { fetchPosts, upVote, downVote, editPost, deletePost }
+    { fetchPosts, upVotePost, downVotePost, editPost, deletePost }
 )(PostsList);

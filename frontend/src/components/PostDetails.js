@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux';
-import { fetchPost, fetchComments, editPost, upVote, downVote, deletePost } from '../actions';
+import { fetchPost, fetchComments, editPost, upVotePost, downVotePost, deletePost } from '../actions';
 import * as moment from 'moment';
 import Comments from './Comments';
 import EditPost from './EditPost';
@@ -41,11 +41,11 @@ class PostDetails extends Component {
     }
 
     handleUpVotePost = (id) => {
-        this.props.upVote(id);
+        this.props.upVotePost(id);
     }
 
     handleDownVotePost = (id) => {
-        this.props.downVote(id);
+        this.props.downVotePost(id);
     }
 
     changeRoute = (post) => {
@@ -68,9 +68,7 @@ class PostDetails extends Component {
             <div className="post-details">
                      <div className="row">
                         <div className="col-xs-12 pull-left">
-                            <Link to={`/${category}/posts`}>
-                                <span style={{ "color": "blue" }}><i className="fa fa-book" aria-hidden="true"></i> {category}</span>
-                            </Link>
+                            <span style={{ "color": "blue" }}><i className="fa fa-book" aria-hidden="true"></i> {category}</span>
                             <h4><strong>{title}</strong></h4>
                             posted by:<span style={{ "color": "red" }}><i className="fa fa-user-circle" aria-hidden="true"></i> <strong>{author}</strong></span> |
                         <span className="text-muted">{moment(timestamp).fromNow()}</span> |
@@ -108,5 +106,5 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
     mapStateToProps,
-    { fetchPost, fetchComments, editPost, upVote, downVote, deletePost }
+    { fetchPost, fetchComments, editPost, upVotePost, downVotePost, deletePost }
 )(PostDetails);

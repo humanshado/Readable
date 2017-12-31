@@ -18,11 +18,6 @@ export default function (state = {}, action) {
                 [action.payload.id]:action.payload
             }
         case EDIT_POST:
-            // console.log('OtherPosts in Posts Edit reducer ', Object.values(state).filter(p => p.id !== action.payload.id )
-            //                                     .reduce((acc, curr) => {
-            //                                         acc[curr.id]= curr
-            //                                         return acc
-            //                                     },{}))
             const otherPosts = Object.values(state).filter(p => p.id !== action.payload.id)
                 .reduce((acc, curr) => {
                     acc[curr.id] = curr

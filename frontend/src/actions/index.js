@@ -140,7 +140,7 @@ export function deletePost(id){
 
 }
 
-export function upVote(id){
+export function upVotePost(id){
     const request = fetch(`${root_api}/posts/${id}`, {
         method: "POST",
         headers: headers,
@@ -158,7 +158,7 @@ export function upVote(id){
     }
 }
 
-export function downVote(id) {
+export function downVotePost(id) {
     const request = fetch(`${root_api}/posts/${id}`, {
         method: "POST",
         headers: headers,
@@ -176,20 +176,20 @@ export function downVote(id) {
     }
 }
 
-export function fetchCategoryPosts(category) {
-    const request = fetch(`${root_api}/posts`, { headers });
+// export function fetchCategoryPosts(category) {
+//     const request = fetch(`${root_api}/posts`, { headers });
 
-    return (dispatch) => {
-        request.then(response => response.json())
-            .then(json => {
-                console.log('payload from actions ',json);
-                dispatch({
-                    type: FETCH_CATEGORY_POSTS,
-                    payload: json
-                })
-            }).catch(error => console.log("Oh Yawsa! Request Failed: ", error));
-    }
-}
+//     return (dispatch) => {
+//         request.then(response => response.json())
+//             .then(json => {
+//                 console.log('payload from actions ',json);
+//                 dispatch({
+//                     type: FETCH_CATEGORY_POSTS,
+//                     payload: json
+//                 })
+//             }).catch(error => console.log("Oh Yawsa! Request Failed: ", error));
+//     }
+// }
 
 export function fetchComments(postId){
     const request = fetch(`${root_api}/posts/${postId}/comments`, { headers })

@@ -19,9 +19,9 @@ export default function (state = {}, action) {
                 [action.payload.id]: action.payload
             }
         case UPVOTE_COMMENT:
-            return Object.assign({}, state, action.payload)
+            return {  ...state, [action.payload.id]: action.payload }
         case DOWNVOTE_COMMENT:
-            return Object.assign({}, state, action.payload)
+            return { ...state, [action.payload.id]: action.payload }
         case DELETE_COMMENT:
             const allComments = Object.values(state);
             const newState = allComments.filter(c => c.id !== action.payload.id)
