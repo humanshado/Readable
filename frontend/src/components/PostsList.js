@@ -97,6 +97,7 @@ class PostsList extends Component {
         });
     }
 
+    //This function was adopted from the official redux documentation with slight modifications
     getVisiblePosts = (posts, activeCategory) => {
         switch (activeCategory) {
             case 'all':
