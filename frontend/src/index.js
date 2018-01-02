@@ -7,7 +7,6 @@ import thunk from 'redux-thunk';
 import { BrowserRouter, Route } from 'react-router-dom';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
 import './index.css';
 import App from './App';
 import rootReducer from './reducers';
