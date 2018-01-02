@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import fetch from 'cross-fetch';
 
 const root_api = "http://localhost:3001";
@@ -36,7 +35,6 @@ export const DELETE_COMMENT = "DELETE_COMMENT";
 export const SET_CATEGORY_FILTER = "SET_CATEGORY_FILTER";
 
 export function setCategoryFilter(...allCategories){
-    //console.log('category dispatched from actions ', category);
     console.log('AllCategories dispatched from actions ', allCategories);   
     return {
         type: SET_CATEGORY_FILTER,
@@ -175,21 +173,6 @@ export function downVotePost(id) {
             }).catch(error => error);
     }
 }
-
-// export function fetchCategoryPosts(category) {
-//     const request = fetch(`${root_api}/posts`, { headers });
-
-//     return (dispatch) => {
-//         request.then(response => response.json())
-//             .then(json => {
-//                 console.log('payload from actions ',json);
-//                 dispatch({
-//                     type: FETCH_CATEGORY_POSTS,
-//                     payload: json
-//                 })
-//             }).catch(error => console.log("Oh Yawsa! Request Failed: ", error));
-//     }
-// }
 
 export function fetchComments(postId){
     const request = fetch(`${root_api}/posts/${postId}/comments`, { headers })
