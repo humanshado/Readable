@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchPosts, upVotePost, downVotePost, editPost, deletePost } from '../actions';
@@ -34,7 +35,6 @@ class PostsList extends Component {
     }
 
     componentWillReceiveProps = (nextProps) => {
-        console.log('nextProps in PostList.js ', nextProps);
         if(this.props !== nextProps){
             this.setState({
                 activeCategory: nextProps.activeCategory
@@ -45,7 +45,6 @@ class PostsList extends Component {
     }
 
     handleDeletePost = (id) => {
-        console.log('Post to delete from PostList.js ', id)
         this.props.deletePost(id);
     }
 
@@ -58,45 +57,47 @@ class PostsList extends Component {
     }
 
     changeRoute = (post) => {
-        console.log('post to edit in PostList ', post)
         const { history } = this.props
         history.push(`/posts/edit/${post.id}`, {post} )
     }
 
     updateSort = (e) => {
         if (this.props.posts) {
-            this.setState({ sortOption: this.props.posts.sort(sortBy(e.target.value)) })
+            this.setState({ sortOption: this.props.posts.sort(sortBy(e.target.value))
+            })
         }
     }
 
     renderPosts = (posts) => {
-       console.log('posts in renderPosts ', posts);
         return this.props.posts && posts.map((post) => {
-            return(<li key={post.id} className="list-group-item posts-wrapper">
-                    <div className="pull-left">
-                        <span style={{"color": "blue"}}><i className="fa fa-book" aria-hidden="true"></i> {post.category}</span>
-                        <Link to={`/posts/${post.id}`}>
-                            <h4><strong>{post.title}</strong></h4>
-                        </Link>
-                        posted by:<span style={{"color" : "red"}}><i className="fa fa-user-circle" aria-hidden="true"></i> <strong>{post.author}</strong></span> |  
-                        <span className="text-muted">{ moment(post.timestamp).fromNow()}</span> |
-                        comments: <span className="badge badge-primary">{post.commentCount}</span>
-                    | votes: <span className="upVote" onClick={() => this.handleUpVotePost(post.id)}><i className="fa fa-heart" aria-hidden="true"></i></span>
-                    <span className="downVote" onClick={() => this.handleDownVotePost(post.id)}><i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
-                        <span>{post.voteScore}</span>
+            return (<div className="panel panel-default" key={post.id}>
+                        <div className="panel-body">
+                            <li className="posts-wrapper">
+                                <div className="pull-left">
+                                    <span style={{"color": "blue"}}><i className="fa fa-book" aria-hidden="true"></i> {post.category}</span>
+                                    <Link to={`/posts/${post.id}`}>
+                                        <h4><strong>{post.title}</strong></h4>
+                                    </Link>
+                                    posted by:<span style={{"color" : "red"}}><i className="fa fa-user-circle" aria-hidden="true"></i> <strong>{post.author}</strong></span> |  
+                                    <span className="text-muted">{ moment(post.timestamp).fromNow()}</span> |
+                                    comments: <span className="badge badge-primary">{post.commentCount}</span>
+                                | votes: <span className="upVote" onClick={() => this.handleUpVotePost(post.id)}><i className="fa fa-heart" aria-hidden="true"></i></span>
+                                <span className="downVote" onClick={() => this.handleDownVotePost(post.id)}><i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
+                                    <span>{post.voteScore}</span>
+                                </div>
+                                <div className="pull-right btn-group">
+                                    <span className="edit" onClick={() => this.changeRoute(post)}><i className="fa fa-pencil" aria-hidden="true"></i></span>
+                                    <span className="delete" onClick={() => this.handleDeletePost(post.id)}><i className="fa fa-trash" aria-hidden="true"></i></span>
+                                </div>
+                            </li>
+                        </div>
                     </div>
-                    <div className="pull-right btn-group">
-                        <span className="edit" onClick={() => this.changeRoute(post)}><i className="fa fa-pencil" aria-hidden="true"></i></span>
-                        <span className="delete" onClick={() => this.handleDeletePost(post.id)}><i className="fa fa-trash" aria-hidden="true"></i></span>
-                    </div>
-                </li>
+                    
             ) 
         });
     }
 
     getVisiblePosts = (posts, activeCategory) => {
-        console.log('posts inside getVisiblePosts ', posts);
-        console.log('activeCategory inside getVisiblePosts ', activeCategory);
         switch (activeCategory) {
             case 'all':
                 return posts
@@ -117,26 +118,21 @@ class PostsList extends Component {
 
     
     render(){
-        console.log('props in PostsList.js ', this.props);
-        console.log('activeCategory PostsList.js props ', ...this.props.activeCategory);
-        console.log('activeCategory PostsList.js local state ', ...this.state.activeCategory);
         let posts = this.getVisiblePosts(this.props.posts, ...this.state.activeCategory);
 
         return (
             <div>
                 {this.state.isCategoryActive           
-                ?   <span className="col-xs-12 col-md-10 main-blog">
-                        <h5>Category Posts here ...</h5>
-                        <ul className="list-group">
+                ?   <div className="col-xs-12 col-md-10 main-blog">
+                        <ul>
                             {this.renderPosts(posts)}
                         </ul>
-                    </span>
-                :   <span className="col-xs-12 col-md-10 main-blog">
-                        <h5>All Posts here ...</h5>
-                        <ul className="list-group">
+                    </div>
+                :   <div className="col-xs-12 col-md-10 main-blog">
+                        <ul>
                             {this.renderPosts(posts)}
                         </ul>
-                    </span>
+                    </div>
                 }
                 <span className="col-md-2 sort-group">
                     <h5 className="text-muted">Sort by:</h5>
@@ -153,11 +149,9 @@ class PostsList extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    console.log('state in PostsList.js' ,state.posts);
-    console.log('ownProps in PostsList.js' ,ownProps);
     return {    
-                posts: Object.values(state.posts),
-                activeCategory: Object.values(state.categories).filter(c => c.isActive === true ).map(c1 => c1.name)
+            posts: Object.values(state.posts),
+            activeCategory: Object.values(state.categories).filter(c => c.isActive === true ).map(c1 => c1.name)
         
     }
 }

@@ -40,12 +40,10 @@ body {
 
 .sort-group{
   padding-left: 5px;
-  position: sticky !important;
-  top: 140px !important;
 }
 
 .sort-group select{
-  width: 12.5rem;
+  width: 10rem;
 }
 
 .sort-group select:hover{
@@ -101,22 +99,38 @@ body {
   margin: 5px; 
 }
 
-.list-group-item:hover{
+.panel:hover{
   background-color: #EEE;
   border: 2px solid white;
 }
 
+.panel li{
+  list-style: none;
+}
+
 .edit:hover {
   color: blue;
+  cursor: pointer;
 }
 
 .delete:hover {
   color: red;
+  cursor: pointer;
 }
 
 .upVote,
 .downVote{
   margin: 5px;
+  cursor: pointer;
+}
+
+.upVote:hover{
+  color:#BAF2BB;
+  size: 100;
+}
+
+.downVote:hover{
+  color:#DF5C7E;
 }
 
 .post-details p{

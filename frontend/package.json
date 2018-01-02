@@ -6,8 +6,6 @@
     "react-scripts": "1.0.17"
   },
   "dependencies": {
-    "axios": "^0.17.1",
-    "bootstrap": "^3.3.7",
     "cross-fetch": "^1.1.1",
     "font-awesome": "^4.7.0",
     "lodash": "^4.17.4",

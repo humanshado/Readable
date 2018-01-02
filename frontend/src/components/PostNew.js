@@ -6,10 +6,14 @@ import { Link } from 'react-router-dom';
 import uuidv4 from 'uuid/v4';
 import { addPost } from '../actions';
 
+export const fields = ['author', 'title', 'category', 'body']
+
 
 class PostNew extends Component {
+    
 
     onSubmit = (values) => {
+        console.log('values in onSubmit ', values)
         this.props.addPost({
             ...values,
             id: uuidv4(),
@@ -20,17 +24,19 @@ class PostNew extends Component {
         })
         this.props.reset();
         this.props.history.push("/");
+
     }
 
     render() {
-        const { handleSubmit, reset, pristine, submitting } = this.props;
+        console.log('props in PostNew ', this.props);
+        const { fields: {author, title, category, body}, handleSubmit, reset, pristine, submitting, meta } = this.props;
         return (
             <div className="post-new">
                 <h4>New Post</h4>
                 <form onSubmit={handleSubmit(this.onSubmit)}>
                     <div className="form-group">
                         <label htmlFor="author">Name:</label>
-                        <Field name="author" component="input" type="text" className="form-control" placeholder="enter your name" autoFocus />
+                        <Field name="author" component="input" type="text" className="form-control" placeholder="enter your name" autoFocus {...author}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="title">Title:</label>
@@ -65,6 +71,18 @@ class PostNew extends Component {
     }
 }
 
+const validate = (values) => {
+    const errors = {};
+
+    if (!values.author) {
+        errors.author = "Author name is required";
+    } else if (values.author.length < 3 || values.author.length > 15) {
+        errors.author = "Author name must be between 3 and 15 characters long";
+    }
+
+    return errors;
+}
+
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({ addPost }, dispatch);
 }
@@ -72,5 +90,7 @@ const mapDispatchToProps = (dispatch) => {
 PostNew = connect(null, mapDispatchToProps)(PostNew);
 
 export default reduxForm({
-    form: "newPostForm"
+    form: "newPostForm",
+    fields, 
+    validate
 })(PostNew);

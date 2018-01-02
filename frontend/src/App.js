@@ -8,7 +8,7 @@ import EditPost from './components/EditPost';
 import PostNew from './components/PostNew';
 
 class App extends Component {
-
+  
   render() {
     return (
       <div className="App">
@@ -26,13 +26,12 @@ class App extends Component {
                     <span><i className="fa fa-sign-in" aria-hidden="true"></i> Log In</span>
                     </Link>
                   </span>
-                <hr />
               </div>
               <div className="col-md-2 categories-bar">
                   <Route component={ListCategories} />
               </div>
 
-              <div className="col-xs-12 col-md-9"> 
+              <div className="col-md-9"> 
                     <Switch>
                       <Route exact path="/" component={PostsList}/>
                       <Route exact path="/posts" component={PostsList}/>

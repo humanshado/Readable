@@ -67,7 +67,7 @@ const defaultData = {
   "1194tuq4ut84ut8v4t8wun89g": {
     id: '1194tuq4ut84ut8v4t8wun89g',
     parentId: "10ni6ok3ym7mf1p33lnez",
-    timestamp: 1468166872950,
+    timestamp: 1514861401500,
     body: 'Hi there! I am a COMMENT IV',
     author: 'Kaode',
     voteScore: 60,
@@ -77,7 +77,7 @@ const defaultData = {
   "10tu4bsun805n8un48ve89": {
     id: '10tu4bsun805n8un48ve89',
     parentId: "10ni6ok3ym7mf1p33lnez",
-    timestamp: 1469479767980,
+    timestamp: 1518861451334,
     body: 'Comments. Are. Cool IV',
     author: 'Nwoke',
     voteScore: 5,
