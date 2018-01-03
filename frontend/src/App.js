@@ -3,9 +3,12 @@ import { Switch, Route, Link } from 'react-router-dom';
 import Nav from './components/Nav';
 import ListCategories from './components/ListCategories';
 import PostsList from './components/PostsList';
+import CategoryPosts from './components/CategoryPosts';
 import PostDetails from './components/PostDetails';
 import EditPost from './components/EditPost';
 import PostNew from './components/PostNew';
+import PageNotFound from './components/PageNotFound';
+
 
 class App extends Component {
   
@@ -37,7 +40,9 @@ class App extends Component {
                       <Route exact path="/posts" component={PostsList}/>
                       <Route exact path="/posts/new" component={PostNew} />
                       <Route exact path="/posts/:id" component={PostDetails} />
-                      <Route exact path="/posts/edit/:id" component={EditPost} />   
+                      <Route exact path="/posts/edit/:id" component={EditPost} />
+                      <Route exact path="/:categories/posts" component={CategoryPosts} />
+                      <Route component={PageNotFound} />   
                     </Switch>
                 </div>
               </div>

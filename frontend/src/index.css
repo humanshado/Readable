@@ -78,8 +78,17 @@ body {
 .categories-bar ul{
   margin: 0;
   padding: 0;
-  list-style: none;
 }
+
+.categories-bar li{
+  list-style: none;
+  cursor: pointer;
+}
+
+.categories-bar li:hover{
+  color: blue;
+}
+
 
 .categories-bar h5{
   color: blue;

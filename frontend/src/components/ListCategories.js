@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { fetchCategories, setCategoryFilter } from '../actions';
 
@@ -12,6 +11,7 @@ class ListCategories extends Component {
     }
 
     makeActive = (category) => {
+        const { history } = this.props;
         let allCategories = this.props.categories;
         category.isActive = category.isActive === false ? true : true; 
         allCategories = allCategories.map(c => {
@@ -19,30 +19,26 @@ class ListCategories extends Component {
                 c.isActive = c.isAcive === true ? false : false;
             }
             return c;
-        })
-        //console.log('allCategories in ListCategories makeActive ', allCategories);    
+        }) 
         this.props.setCategoryFilter(...allCategories);
+        history.push(`/${category.name}/posts`);
     }
 
     renderCategories = () => {
         return this.props.categories.map((category, index) => {
             return (
-                <Link to="/" key={index} onClick={() => this.makeActive(category)}>
-                    <li >
+                    <li key={index} onClick={() => this.makeActive(category)}>
                         {category.name === "all"
                         ?   <i className="fa fa-list" aria-hidden="true"></i>   
                         :   <i className="fa fa-book" aria-hidden="true"></i> 
                         }
                             <span> {_.capitalize(category.name)}</span>
                    </li>
-                </Link>
             )
         })
     }
 
     render() {
-        console.log('props in ListCategory.js render ', this.props);
-
         return (
             <div>
                 <h5>Categories...</h5>
@@ -55,8 +51,6 @@ class ListCategories extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    console.log('state in ListCategory.js mapStateToProps ', state)
-    console.log('ownProps in ListCategory.js mapStateToProps ',ownProps)
     return {
         categories: Object.values(state.categories)
     }

@@ -14,12 +14,33 @@ class PostsList extends Component {
         super(props);
 
         this.state = {
-            sortOption: "timestamp"
+            sortOption: "timestamp",
+            isCategoryActive: false,
+            activeCategory: ""
         }
     }
 
     componentDidMount() {
         this.props.fetchPosts();
+    }
+
+    toggleCategory = () => {
+        if((this.state.isCategoryActive && this.state.activeCategory === "all") || 
+            (!this.state.isCategoryActive && this.state.activeCategory !== "all")){
+                this.setState({ 
+                    isCategoryActive: !this.state.isCategoryActive
+                });
+        }
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+        if(this.props !== nextProps){
+            this.setState({
+                activeCategory: nextProps.activeCategory
+            }, (state) => {
+                this.toggleCategory();
+            })
+        }
     }
 
     handleDeletePost = (id) => {
@@ -46,8 +67,8 @@ class PostsList extends Component {
         }
     }
 
-    renderPosts = () => {
-        return this.props.posts && this.props.posts.map((post) => {
+    renderPosts = (posts) => {
+        return this.props.posts && posts.map((post) => {
             return (<div className="panel panel-default" key={post.id}>
                         <div className="panel-body">
                             <li className="posts-wrapper">
@@ -75,16 +96,44 @@ class PostsList extends Component {
         });
     }
 
+    //This function was adopted from the official redux documentation with slight modifications
+    getVisiblePosts = (posts, activeCategory) => {
+        switch (activeCategory) {
+            case 'all':
+                return posts
+            case 'react':
+                return posts.filter(post => post.category === activeCategory)
+            case 'redux':
+                return posts.filter(post => post.category === activeCategory)
+            case 'udacity':
+                return posts.filter(post => post.category === activeCategory)
+            case 'sport':
+                return posts.filter(post => post.category === activeCategory)
+            case 'health':
+                return posts.filter(post => post.category === activeCategory)
+            default:
+                return posts
+        }
+    }
+
     
     render(){
-       
+        let posts = this.getVisiblePosts(this.props.posts, ...this.state.activeCategory);
+
         return (
-            <div>         
-                <div className="col-xs-12 col-md-10 main-blog">
+            <div>
+                {this.state.isCategoryActive           
+                ?   <div className="col-xs-12 col-md-10 main-blog">
                         <ul>
-                            {this.renderPosts()}
+                            {this.renderPosts(posts)}
                         </ul>
                     </div>
+                :   <div className="col-xs-12 col-md-10 main-blog">
+                        <ul>
+                            {this.renderPosts(posts)}
+                        </ul>
+                    </div>
+                }
                 <span className="col-md-2 sort-group">
                     <h5 className="text-muted">Sort by:</h5>
                     <select value={this.state.sortOption} onChange={(e) => this.updateSort(e)}>
@@ -101,7 +150,8 @@ class PostsList extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {    
-            posts: Object.values(state.posts)
+            posts: Object.values(state.posts),
+            activeCategory: Object.values(state.categories).filter(c => c.isActive === true ).map(c1 => c1.name)
         
     }
 }
