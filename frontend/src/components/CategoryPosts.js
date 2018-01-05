@@ -8,8 +8,7 @@ import sortBy from 'sort-by';
 import ListCategories from './ListCategories';
 
 
-
-class PostsList extends Component {
+class CategoryPosts extends Component {
     constructor(props){
         super(props);
 
@@ -159,4 +158,4 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(
     mapStateToProps, 
     { fetchPosts, upVotePost, downVotePost, editPost, deletePost }
-)(PostsList);
+)(CategoryPosts);

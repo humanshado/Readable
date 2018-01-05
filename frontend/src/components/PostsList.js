@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom';
 import { fetchPosts, upVotePost, downVotePost, editPost, deletePost } from '../actions';
 import * as moment from 'moment';
 import sortBy from 'sort-by';
-import ListCategories from './ListCategories';
-
 
 
 class PostsList extends Component {

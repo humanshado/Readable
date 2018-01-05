@@ -4,6 +4,7 @@ import Nav from './components/Nav';
 import ListCategories from './components/ListCategories';
 import PostsList from './components/PostsList';
 import CategoryPosts from './components/CategoryPosts';
+import CategoriesSummary from './components/CategoriesSummary';
 import PostDetails from './components/PostDetails';
 import EditPost from './components/EditPost';
 import PostNew from './components/PostNew';
@@ -13,6 +14,7 @@ import PageNotFound from './components/PageNotFound';
 class App extends Component {
   
   render() {
+    console.log('props in App.js render ', this.props)
     return (
       <div className="App">
           <div className="row nav-wrapper"><Nav /></div>
@@ -22,16 +24,19 @@ class App extends Component {
                 <div className="row banner">
                   <Link to="/posts/new" className="btn btn-primary">Add Post</Link>
                   <span className="summary-links pull-right">
-                    <Link to="/">
-                    <span><i className="fa fa-user-plus" aria-hidden="true"></i> Sign Up</span>
-                    </Link>
-                    <Link to="/">
-                    <span><i className="fa fa-sign-in" aria-hidden="true"></i> Log In</span>
-                    </Link>
+                      <Link to="/summary">
+                        <span><i className="fa fa-th-large" aria-hidden="true"></i> Summary</span> |
+                      </Link>
+                      <Link to="/">
+                          <span><i className="fa fa-user-plus" aria-hidden="true"></i> Sign Up</span>
+                      </Link>
+                      <Link to="/">
+                          <span><i className="fa fa-sign-in" aria-hidden="true"></i> Log In</span>
+                      </Link>
                   </span>
               </div>
-              <div className="col-md-2 categories-bar">
-                  <Route component={ListCategories} />
+              <div className="col-md-1 categories-bar">
+                <Route component={ListCategories} />
               </div>
 
               <div className="col-md-9"> 
@@ -42,6 +47,7 @@ class App extends Component {
                       <Route exact path="/posts/:id" component={PostDetails} />
                       <Route exact path="/posts/edit/:id" component={EditPost} />
                       <Route exact path="/:categories/posts" component={CategoryPosts} />
+                      <Route exact path="/summary" component={CategoriesSummary} />
                       <Route component={PageNotFound} />   
                     </Switch>
                 </div>

@@ -164,3 +164,22 @@ form button{
   padding: 0;
 }
 
+.summary-card{
+  display: inline-block;
+  width: 22rem;
+  height: 27rem;
+  border: 1px solid #EEE;
+  margin-right: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  transition: box-shadow 1s;
+}
+
+.summary-card:hover{
+  box-shadow: -2px 6px 35px 0px rgba(0,0,0,1);
+}
+
+.card-caption{
+  text-align: center;
+  align-content: center;
+}
