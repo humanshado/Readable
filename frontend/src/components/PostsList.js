@@ -51,7 +51,7 @@ class PostsList extends Component {
                             <li className="posts-wrapper">
                                 <div className="pull-left">
                                     <span style={{"color": "blue"}}><i className="fa fa-book" aria-hidden="true"></i> {post.category}</span>
-                                    <Link to={`/posts/${post.id}`}>
+                                    <Link to={`/${post.category}/${post.id}`}>
                                         <h4><strong>{post.title}</strong></h4>
                                     </Link>
                                     posted by:<span style={{"color" : "red"}}><i className="fa fa-user-circle" aria-hidden="true"></i> <strong>{post.author}</strong></span> |  

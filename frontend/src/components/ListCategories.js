@@ -21,7 +21,7 @@ class ListCategories extends Component {
             return c;
         }) 
         this.props.setCategoryFilter(...allCategories);
-        history.push(`/${category.name}/posts`);
+        history.push(`/${category.path}`);
     }
 
     renderCategories = () => {

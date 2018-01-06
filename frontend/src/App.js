@@ -44,9 +44,9 @@ class App extends Component {
                       <Route exact path="/" component={PostsList}/>
                       <Route exact path="/posts" component={PostsList}/>
                       <Route exact path="/posts/new" component={PostNew} />
-                      <Route exact path="/posts/:id" component={PostDetails} />
                       <Route exact path="/posts/edit/:id" component={EditPost} />
-                      <Route exact path="/:categories/posts" component={CategoryPosts} />
+                      <Route exact path="/:categories/:id" component={PostDetails} />
+                      <Route exact path="/:categories" component={CategoryPosts} />
                       <Route exact path="/dashboard" component={Dashboard} />
                       <Route component={PageNotFound} />   
                     </Switch>
