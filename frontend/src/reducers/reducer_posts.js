@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { FETCH_POSTS, SHOW_POST, ADD_POST, EDIT_POST, UPVOTE_POST, DOWNVOTE_POST, DELETE_POST } from '../actions';
+import { FETCH_POSTS, ADD_POST, EDIT_POST, UPVOTE_POST, DOWNVOTE_POST, DELETE_POST } from '../actions';
 
 
 export default function (state = {}, action) {
@@ -10,8 +10,6 @@ export default function (state = {}, action) {
                 acc[cur.id] = cur;
                 return acc;
             }, {});
-        case SHOW_POST:
-            return Object.assign({}, state, action.payload);
         case ADD_POST:
             return {
                 ...state,

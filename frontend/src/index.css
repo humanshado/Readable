@@ -183,3 +183,12 @@ form button{
   text-align: center;
   align-content: center;
 }
+
+.not-found h1,
+.not-found p{
+  text-align: center;
+}
+
+.not-found p{
+  font-size: 10rem;
+}

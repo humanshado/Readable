@@ -13,12 +13,15 @@ const headers = {
 
 export const FETCH_CATEGORIES = "FETCH_CATEGORIES";
 export const FETCH_POSTS = "FETCH_POSTS";
-export const SHOW_POST = "FETCH_POST";
+// export const SHOW_POST = "FETCH_POST";
+// export const FETCH_POST = "FETCH_POST";
 export const UPVOTE_POST = "UPVOTE_POST";
 export const DOWNVOTE_POST = "DOWNVOTE_POST";
-export const FETCH_POST = "FETCH_POST";
+export const FETCH_POST_REQUEST = "FETCH_POST_REQUEST";
+export const FETCH_POST_SUCCESS = "FETCH_POST_SUCCESS";
+export const FETCH_POST_FAILURE = "FETCH_POST_FAILURE";
 export const FETCH_CATEGORY_POSTS ="FETCH_CATEGORY_POSTS";
-export const SHOW_CATEGORY_POST = "FETCH_POST";
+//export const SHOW_CATEGORY_POST = "FETCH_POST";
 export const EDIT_CATEGORY_POST = "EDIT_POST";
 export const UPVOTE_CATEGORY_POST = "UPVOTE_POST";
 export const DOWNVOTE_CATEGORY_POST = "DOWNVOTE_POST";
@@ -33,6 +36,7 @@ export const UPVOTE_COMMENT = "UPVOTE_COMMENT";
 export const DOWNVOTE_COMMENT = "DOWNVOTE_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const SET_CATEGORY_FILTER = "SET_CATEGORY_FILTER";
+
 
 export function setCategoryFilter(...allCategories){
     console.log('AllCategories dispatched from actions ', allCategories);   
@@ -70,18 +74,56 @@ export function fetchPosts() {
     }
 }
 
-export function fetchPost(id) {
-    const request = fetch(`${root_api}/posts/${id}`, { headers });
+// export function fetchPost(id) {
+//     const request = fetch(`${root_api}/posts/${id}`, { headers });
 
-    return (dispatch) => {
-        request.then(response => response.json())
-            .then(json => {
-                dispatch({
-                    type: FETCH_POST,
-                    payload: json
-                })
-            }).catch(error => console.log("Oh Yawsa! Request Failed: ", error));
+//     return (dispatch) => {
+//         request.then(response => response.json())
+//             .then(json => {
+//                 dispatch({
+//                     type: FETCH_POST,
+//                     payload: json
+//                 })
+//             }).catch(error => console.log("Oh Yawsa! Request Failed: ", error));
+//     }
+// }
+
+export function fetchPost_request(id) {
+        return {
+            type: FETCH_POST_REQUEST,
+            id
+        }
+}
+
+export function fetchPost_success(id, json) {
+    return {
+        type: FETCH_POST_SUCCESS,
+        id,
+        json
     }
+}
+
+export function fetchPost_failure(id, error) {
+    return {
+        type: FETCH_POST_FAILURE,
+        id,
+        error
+    }
+}
+
+export function fetchPostDetails(id) {
+    return (dispatch) => {
+        dispatch(fetchPost_request(id))
+
+    return fetch(`${root_api}/posts/${id}`, { headers })
+            .then(response => response.json())
+            .then(json => dispatch(fetchPost_success(id, json)))
+
+    error => { dispatch(fetchPost_failure(id, error))
+                throw error
+            }
+    }
+
 }
 
 export function addPost(post){
