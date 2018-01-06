@@ -38,7 +38,7 @@ class CategoriesSummary extends Component {
 
         return (
                 <div className="col-sm-12 col-md-12 main-blog">
-                        <h4>Summary of Categories</h4><hr />
+                        <h4>Summary Dashboard</h4><hr />
                         {this.props && this.props.categories.filter(c => c.name !== 'all').map(c => {
                             return (<div className="summary-card">
                                     <i className="fa fa-th-large" aria-hidden="true"></i>

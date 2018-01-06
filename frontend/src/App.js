@@ -4,7 +4,7 @@ import Nav from './components/Nav';
 import ListCategories from './components/ListCategories';
 import PostsList from './components/PostsList';
 import CategoryPosts from './components/CategoryPosts';
-import CategoriesSummary from './components/CategoriesSummary';
+import Dashboard from './components/Dashboard';
 import PostDetails from './components/PostDetails';
 import EditPost from './components/EditPost';
 import PostNew from './components/PostNew';
@@ -24,8 +24,8 @@ class App extends Component {
                 <div className="row banner">
                   <Link to="/posts/new" className="btn btn-primary">Add Post</Link>
                   <span className="summary-links pull-right">
-                      <Link to="/summary">
-                        <span><i className="fa fa-th-large" aria-hidden="true"></i> Summary</span> |
+                      <Link to="/dashboard">
+                        <span><i className="fa fa-th-large" aria-hidden="true"></i> Dashboard</span> |
                       </Link>
                       <Link to="/">
                           <span><i className="fa fa-user-plus" aria-hidden="true"></i> Sign Up</span>
@@ -47,7 +47,7 @@ class App extends Component {
                       <Route exact path="/posts/:id" component={PostDetails} />
                       <Route exact path="/posts/edit/:id" component={EditPost} />
                       <Route exact path="/:categories/posts" component={CategoryPosts} />
-                      <Route exact path="/summary" component={CategoriesSummary} />
+                      <Route exact path="/dashboard" component={Dashboard} />
                       <Route component={PageNotFound} />   
                     </Switch>
                 </div>
